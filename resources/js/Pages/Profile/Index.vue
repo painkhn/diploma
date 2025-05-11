@@ -7,6 +7,7 @@ import Button from '@/Components/ui/button/Button.vue';
 import { onMounted } from 'vue';
 import UpdateAvatar from '@/Components/Profile/UpdateAvatar.vue';
 import { User } from '@/types';
+import CreateModal from '@/Components/Project/CreateModal.vue';
 
 const props = defineProps<{
     user: User;
@@ -50,9 +51,14 @@ onMounted(() => {
                     <li>
                         <h2 class="font-semibold text-lg uppercase">{{ props.user?.name }}</h2>
                     </li>
-                    <p>
-                    <p>{{ props.user?.email }}</p>
-                    </p>
+                    <li>
+                        <p>{{ props.user?.email }}</p>
+                    </li>
+                    <li>
+                        <CreateModal>
+                            Создать проект
+                        </CreateModal>
+                    </li>
                 </ul>
                 <form @submit.prevent="submit">
                     <Button type="submit" variant="outline" class="transition-all hover:dark:bg-white/10">Выход</Button>

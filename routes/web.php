@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\GithubAuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,6 +32,10 @@ Route::middleware('auth')->group(function () {
     // Route::get('/profile', [::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::controller(ProjectController::class)->group(function() {
+        Route::post('/project/create', 'store')->name('project.store');
+    });
 });
 
 Route::get('/auth/github', [GithubAuthController::class, 'redirect'])->name('github.login');

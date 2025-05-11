@@ -59,7 +59,7 @@ const submit = () => {
                     <Input v-model="form.password_confirmation" type="password" />
                 </div>
                 <Button type="submit" variant="default"
-                    class="w-full transition-all bg-white text-black hover:bg-gray-200">Войти</Button>
+                    class="w-full transition-all bg-white text-black hover:bg-gray-200">Регистрация</Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->
