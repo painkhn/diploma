@@ -14,7 +14,42 @@ use Inertia\Response;
 class ProfileController extends Controller
 {
     public function show() {
-        return Inertia::render('Profile/Index');
+        $user = Auth::user();
+        // dd($user);
+        return Inertia::render('Profile/Index', [
+            'user' => $user
+        ]);
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        // dd($request->all());
+
+        $validated = $request->validate([
+            'avatar_change' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048'
+        ]);
+
+        // dd($request->all());
+        
+        $user = Auth::user();
+        $avatarPath = public_path($user->avatar);
+    
+        // Удаляем старую аватарку, если она существует
+        if ($user->avatar && file_exists($avatarPath)) {
+            unlink($avatarPath);
+        }
+    
+        // Сохраняем новую аватарку
+        $name = time() . "." . $request->file('avatar_change')->extension();
+        $destination = 'avatars'; // Путь для хранения аватарок
+        $path = $request->file('avatar_change')->storeAs($destination, $name, 'public');
+    
+        // Обновляем путь к аватарке в базе данных
+        $user->where('id', $user->id)->update([
+            'avatar' => $path
+        ]);
+    
+        return redirect()->back()->with('success', 'Аватарка успешно изменена!');
     }
 
     /**
