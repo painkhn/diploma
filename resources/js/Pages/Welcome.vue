@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import Button from '@/Components/ui/button/Button.vue'
+import NavigationMenu from '@/Components/Header/NavigationMenu.vue';
+import AuthModal from '@/Components/Header/AuthModal.vue';
 
 defineProps<{
     canLogin?: boolean;
@@ -18,13 +20,26 @@ function handleImageError() {
 </script>
 
 <template>
-    <Head title="Welcome" />
-    
-    <header class="w-full border dark:border-white p-10">
 
+    <Head title="Welcome" />
+
+    <header class="w-full p-5">
+        <div class="grid grid-cols-3">
+            <div class="justify-self-start">
+                <span class="dark:text-white text-2xl font-semibold pointer-events-none">TechProject</span>
+            </div>
+            <div class="justify-self-center">
+                <NavigationMenu v-if="$page.props.auth.user" />
+            </div>
+            <div class="justify-self-end">
+                <AuthModal v-if="!$page.props.auth.user">
+                    <Button variant="outline">Войти</Button>
+                </AuthModal>
+            </div>
+        </div>
     </header>
 
     <main>
-        
+
     </main>
 </template>

@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 @layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px theme('colors.background') inset !important;
+    -webkit-text-fill-color: theme('colors.foreground') !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input:-moz-autofill,
+  input:-moz-autofill:hover,
+  input:-moz-autofill:focus {
+    box-shadow: 0 0 0 1000px theme('colors.background') inset !important;
+    text-fill-color: theme('colors.foreground') !important;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
@@ -28,8 +43,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
-  }
+    --radius: 0.5rem}
   .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 60 9.1% 97.8%;
@@ -54,8 +68,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
-  }
+    --chart-5: 340 75% 55%}
 }
 
 @layer base {
