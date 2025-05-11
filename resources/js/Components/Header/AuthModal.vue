@@ -55,7 +55,7 @@ const githubAuthUrl = route('github.login');
             </form>
             <div class="w-full relative py-4">
                 <div class="w-full h-[2px] z-10 bg-white absolute top-1/2 -translate-y-1/2"></div>
-                <p class="bg-black absolute z-20 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 px-2">ИЛИ</p>
+                <p class="bg-black absolute z-20 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 px-2 text-sm font-semibold">или</p>
             </div>
             <div class="grid">
                 <a :href="githubAuthUrl" class="justify-self-center">

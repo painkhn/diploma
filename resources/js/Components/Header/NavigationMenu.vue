@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
-} from '@/Components/ui/navigation-menu'
+const data = [
+    {
+        title: 'Профиль',
+        link: route("profile.show"),
+    },
+]
 </script>
 
 <template>
-    <NavigationMenu>
-        <NavigationMenuList>
-            <NavigationMenuItem>
-                <NavigationMenuLink :class="navigationMenuTriggerStyle()">
-                    Профиль
-                </NavigationMenuLink>
-            </NavigationMenuItem>
-        </NavigationMenuList>
-    </NavigationMenu>
+    <ul class="text-sm font-semibold">
+        <li v-for="(item, index) in data" :key="index">
+            <a :href="item.link" class="px-4 py-2 transition-all rounded-md hover:bg-white/10">
+                {{ item.title }}
+            </a>
+        </li>
+    </ul>
 </template>
