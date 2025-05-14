@@ -5,16 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $users = User::all();
+        $project = Project::where('id', $id)->first();
+        return Inertia::render('Project/Index', [
+            'project' => $project,
+            'users' => $users
+        ]);
     }
 
     /**

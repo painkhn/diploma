@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::controller(ProfileController::class)->group(function() {
-        Route::get('/profile', 'show')->name('profile.show');
+        Route::get('/profile/{id}', 'show')->name('profile.show');
         Route::post('/profile/update_avatar', 'updateAvatar')->name('profile.avatar.update');
     });
     // Route::get('/profile', [::class, 'edit'])->name('profile.edit');
@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::controller(ProjectController::class)->group(function() {
+        Route::get('/project/{id}', 'index')->name('project.index');
         Route::post('/project/create', 'store')->name('project.store');
     });
 });
