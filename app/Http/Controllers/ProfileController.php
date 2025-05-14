@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\{ Project, User };
+use App\Models\ProjectInvitation;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,13 +16,15 @@ use Inertia\Response;
 class ProfileController extends Controller
 {
     public function show($id) {
+        $invitations = ProjectInvitation::where('recipient_id', $id)->where('status', 'pending')->get();
         $user = User::findOrFail($id);
         $projects = Project::where('user_id', $user->id)->get();
         // dd($projects);
         // dd($user);
         return Inertia::render('Profile/Index', [
             'user' => $user,
-            'projects' => $projects
+            'projects' => $projects,
+            'invitations' => $invitations
         ]);
     }
 

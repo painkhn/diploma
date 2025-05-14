@@ -6,13 +6,14 @@ import { Bell, Image } from 'lucide-vue-next';
 import Button from '@/Components/ui/button/Button.vue';
 import { onMounted, ref } from 'vue';
 import UpdateAvatar from '@/Components/Profile/UpdateAvatar.vue';
-import { Project, User } from '@/types';
+import { Invitation, Project, User } from '@/types';
 import CreateModal from '@/Components/Project/CreateModal.vue';
 import NotificationModal from '@/Components/Profile/NotificationModal.vue';
 
 const props = defineProps<{
     user: User;
     projects: Project[] | null;
+    invitations: Invitation[] | null;
 }>()
 
 const form = useForm(
@@ -52,6 +53,8 @@ onMounted(() => {
     updateDateTime();
     updateTime();
     intervalId = setInterval(updateTime, 1000);
+    console.log(props.invitations);
+    
 })
 </script>
 
@@ -114,18 +117,20 @@ onMounted(() => {
                 <h2 class="text-2xl font-semibold text-center">
                     Уведомления
                 </h2>
-                <ul class="space-y-4">
-                    <li>
-                        <NotificationModal>
-                            <div class="dark:bg-white/5 transition-all hover:dark:bg-white/10 rounded-md p-4 flex items-center gap-x-4">
+                <ul class="space-y-4" v-if="(props.invitations as Invitation[])?.length > 0">
+                    <li v-for="(item, index) in props.invitations" :key="index">
+                        <NotificationModal :notification="item">
+                            <div
+                                class="dark:bg-white/5 transition-all hover:dark:bg-white/10 rounded-md p-4 flex items-center gap-x-4">
                                 <Bell />
                                 <h3 class="font-semibold line-clamp-1">
-                                    Example notif title
+                                    Приглашение в проект
                                 </h3>
                             </div>
                         </NotificationModal>
                     </li>
                 </ul>
+                <p v-else class="text-sm font-semibold text-center opacity-80">У вас нет новых уведомлений</p>
             </div>
         </section>
 

@@ -15,8 +15,17 @@ export interface Project {
     end_date: Date;
 }
 
+export interface Invitation {
+    id: number;
+    project_id: number;
+    sender_id: number;
+    recipient_id: nubmer;
+    status: string;
+    message: string | null;
+}
+
 export type PageProps<
-    T extends Record<string, unknown> = Record<string, unknown>,
+    T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
     auth: {
         user: User;

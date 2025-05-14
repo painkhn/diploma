@@ -46,7 +46,7 @@ const props = defineProps<{
                 <h2 class="text-2xl font-semibold text-center">
                     Пользователи проекта
                 </h2>
-                <AddUserModal :users="props.users">
+                <AddUserModal :project="props.project" :users="props.users">
                     <UserRoundPlus />
                     Пригласить пользователя
                 </AddUserModal>

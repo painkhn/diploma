@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\GithubAuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectInvitationController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::controller(ProjectController::class)->group(function() {
         Route::get('/project/{id}', 'index')->name('project.index');
         Route::post('/project/create', 'store')->name('project.store');
+    });
+    Route::controller(ProjectInvitationController::class)->group(function() {
+        Route::post('/project/{project}/invitations', 'store')->name('project.invitation.store');
+        Route::post('/invitations/{invitation}/accept', 'accept')->name('project.invitation.accept');
+        Route::post('/invitations/{invitation}/reject', 'reject')->name('project.invitation.reject');
     });
 });
 
