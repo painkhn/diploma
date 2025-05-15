@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectInvitation;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,8 +51,11 @@ class ProjectInvitationController extends Controller
         }
 
         $invitation->update(['status' => 'accepted']);
-        
-        // Здесь можно добавить логику добавления пользователя к проекту
+
+        $project_user = ProjectUser::create([
+            'project_id' => $invitation->project->id,
+            'user_id' => $invitation->recipient->id
+        ]);
         
         // return response()->json(['message' => 'Приглашение принято']);
     }

@@ -17,10 +17,12 @@ class ProjectController extends Controller
     public function index($id)
     {
         $users = User::all();
-        $project = Project::where('id', $id)->first();
+        $project = Project::with(['projectUser.user'])->where('id', $id)->first();
+        // dd($project->projectUser);
         return Inertia::render('Project/Index', [
             'project' => $project,
-            'users' => $users
+            'users' => $users,
+            'projectUsers' => $project->projectUser
         ]);
     }
 
