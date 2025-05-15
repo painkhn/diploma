@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\GithubAuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectInvitationController;
+use App\Http\Controllers\ProjectUserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -42,6 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/project/{project}/invitations', 'store')->name('project.invitation.store');
         Route::post('/invitations/{invitation}/accept', 'accept')->name('project.invitation.accept');
         Route::post('/invitations/{invitation}/reject', 'reject')->name('project.invitation.reject');
+    });
+    Route::controller(ProjectUserController::class)->group(function() {
+        Route::delete('/project/{id}/delete', 'destroy')->name('project.user.delete');
     });
 });
 

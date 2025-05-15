@@ -59,8 +59,10 @@ class ProjectUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProjectUser $projectUser)
+    public function destroy($id)
     {
-        //
+        $user = ProjectUser::where('user_id', $id);
+        $user->delete();
+        // $projectUser->delete();
     }
 }
