@@ -60,7 +60,7 @@ onMounted(() => {
 
 <template>
 
-    <Head :title="$page.props.auth.user.name" />
+    <Head :title="props.user.name" />
 
     <MainLayout>
         <section class="flex justify-between">

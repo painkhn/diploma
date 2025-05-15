@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import AddUserModal from '@/Components/Project/AddUserModal.vue';
+import ProjectUsersList from '@/Components/Project/ProjectUsersList.vue';
+import UpdateProjectModal from '@/Components/Project/UpdateProjectModal.vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Project, ProjectUser, User } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
-import axios from 'axios';
-import { Trash, UserRoundPlus } from 'lucide-vue-next';
-import { DefineProps, onMounted, ref } from 'vue';
+import { Project, User } from '@/types';
+import { Head } from '@inertiajs/vue3';
+import { UserRoundPlus } from 'lucide-vue-next';
+import { onMounted } from 'vue';
 
 const props = defineProps<{
     project: Project
@@ -13,15 +14,7 @@ const props = defineProps<{
     projectUsers: any
 }>()
 
-const deleteUser = async (userId: number) => {
-    try {
-        await axios.delete(route('project.user.delete', { id: userId }));
-        // После успешного удаления можно обновить список пользователей
-        location.reload(); // Перезагрузка страницы
-    } catch (error) {
-        console.error('Ошибка при удалении пользователя:', error);
-    }
-}
+
 
 onMounted(() => {
     console.log(props.projectUsers); // Это покажет связи ProjectUser
@@ -42,12 +35,17 @@ onMounted(() => {
                     <p class="text-2xl opacity-80">
                         {{ props.project.description }}
                     </p>
-                    <div class="opacity-80 font-semibold">
+                    <div class="opacity-80 font-semibold flex items-center gap-x-8">
                         <p>
                             {{ props.project.start_date }}
                             -
                             {{ props.project.end_date }}
                         </p>
+                        <div>
+                            <UpdateProjectModal :project="props.project">
+                                Редактировать тему
+                            </UpdateProjectModal>
+                        </div>
                     </div>
                 </div>
                 <div class="">
@@ -62,30 +60,7 @@ onMounted(() => {
                     <UserRoundPlus />
                     Пригласить пользователя
                 </AddUserModal>
-                <ul>
-                    <li v-for="(item, index) in props.projectUsers" :key="index">
-                        <div class="grid grid-cols-2 items-center px-5">
-                            <Link :href="route('profile.show', { id: item?.user.id })"
-                                class="flex items-center gap-x-4 justify-self-start transition-all hover:opacity-80">
-                            <div
-                                class="w-full max-w-10 flex items-center justify-center h-10 rounded-full border-2 overflow-hidden dark:border-white/10">
-                                <Image v-if="item.user?.avatar == null" class="w-5 h-5 stroke-1 opacity-80" />
-                                <img v-else :src="`/storage/` + item.user?.avatar" alt="Аватарка"
-                                    encType="multipart/form-data" class="w-full min-h-5">
-                            </div>
-                            <span class="font-semibold">
-                                {{ item?.user.name }}
-                            </span>
-                            </Link>
-                            <div class="justify-self-end">
-                                <button @click="deleteUser(item.user.id)">
-                                    <Trash class="text-red-400 transition-all hover:text-red-300" />
-                                    <!-- 123123123 -->
-                                </button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                <ProjectUsersList :project-users="props.projectUsers" />
             </div>
         </div>
     </MainLayout>
