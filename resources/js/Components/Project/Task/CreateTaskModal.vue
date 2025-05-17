@@ -14,7 +14,7 @@ import Label from '@/Components/ui/label/Label.vue';
 import Button from '@/Components/ui/button/Button.vue';
 import Textarea from '@/Components/ui/textarea/Textarea.vue';
 import DatePicker from '@/Components/Project/CreateModal/DatePicker.vue';
-import ProjectUsers from '@/Components/Project/Task/ProjectUsers.vue'
+import ProjectUsers from '@/Components/Project/Task/ProjectUsers.vue';
 import { ref } from 'vue'
 
 import { Project, User } from '@/types';
@@ -33,6 +33,18 @@ const props = defineProps<{
     project: Project,
     projectUsers: any
 }>()
+
+const submit = () => {
+    form.post(route('task.store'), {
+        onSuccess: () => {
+            form.reset()
+            console.log('нормас')
+        },
+        onError: () => {
+            console.log('не нормас')
+        }
+    })
+}
 </script>
 
 <template>
@@ -54,7 +66,7 @@ const props = defineProps<{
                 </div>
                 <div class="space-y-2">
                     <Label>Описание задачи</Label>
-                    <Input type="text" v-model="form.description" />
+                    <Textarea type="text" v-model="form.description" />
                 </div>
                 <div class="space-y-2">
                     <Label>Дата окончания</Label>
@@ -62,11 +74,12 @@ const props = defineProps<{
                 </div>
                 <div class="space-y-2">
                     <Label>Ответственный пользователь</Label>
-                    <ProjectUsers :project-users="props.projectUsers" />
+                    <ProjectUsers :project-users="props.projectUsers" v-model="form.responsible_id" />
                 </div>
+                <Button type="submit" class="w-full">Создать</Button>
             </form>
             <DialogFooter>
-                Save changes
+                <!-- Save changes -->
             </DialogFooter>
         </DialogContent>
     </Dialog>

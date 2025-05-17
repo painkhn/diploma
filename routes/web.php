@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/project/{id}/delete', 'destroy')->name('project.user.delete');
     });
     Route::controller(TaskController::class)->group(function() {
-        Route::post('/project/{id}/task/create');
+        Route::post('/project/{id}/task/create', 'store')->name('task.store');
     });
 });
 

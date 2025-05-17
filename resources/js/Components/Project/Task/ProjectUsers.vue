@@ -2,31 +2,20 @@
 import { cn } from '@/lib/utils'
 import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxItemIndicator, ComboboxList } from '@/Components/ui/combobox'
 import { Check, Search } from 'lucide-vue-next'
-
-// const frameworks = [
-//     { value: 'next.js', label: 'Next.js' },
-//     { value: 'sveltekit', label: 'SvelteKit' },
-//     { value: 'nuxt', label: 'Nuxt' },
-//     { value: 'remix', label: 'Remix' },
-//     { value: 'astro', label: 'Astro' },
-// ]
-
-import { defineProps, onMounted } from 'vue';
+import { ref } from 'vue'
 
 const props = defineProps<{
     projectUsers: any
 }>()
 
-onMounted(() => {
-    console.log(props.projectUsers)
-})
+const selectedUser = ref()
 </script>
 
 <template>
-    <Combobox by="label">
+    <Combobox v-model="selectedUser" by="id">
         <ComboboxAnchor class="w-full">
             <div class="relative w-full items-center">
-                <ComboboxInput class="pl-9" :display-value="(val) => val?.label ?? ''"
+                <ComboboxInput class="pl-9" :display-value="(user) => user?.user?.name ?? ''"
                     placeholder="Выберите пользователя" />
                 <span class="absolute start-0 inset-y-0 flex items-center justify-center px-3">
                     <Search class="size-4 text-muted-foreground" />
@@ -40,7 +29,7 @@ onMounted(() => {
             </ComboboxEmpty>
 
             <ComboboxGroup>
-                <ComboboxItem v-for="(item, index) in props.projectUsers" :key="index" :value="item.id">
+                <ComboboxItem v-for="(item, index) in props.projectUsers" :key="index" :value="item">
                     {{ item.user.name }}
 
                     <ComboboxItemIndicator>
