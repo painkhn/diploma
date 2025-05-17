@@ -16,11 +16,6 @@ import { defineProps, onMounted } from 'vue';
 const props = defineProps<{
     task: Task
 }>()
-
-onMounted(() => {
-    console.log(props.task);
-    
-})
 </script>
 
 <template>

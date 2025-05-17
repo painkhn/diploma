@@ -16,14 +16,14 @@ import ThemeToggle from './ThemeToggle.vue';
             <div class="justify-self-center items-center">
                 <NavigationMenu v-if="$page.props.auth.user" />
             </div>
-            <div class="justify-self-end">
+            <div class="justify-self-end flex items-center">
                 <RegisterModal v-if="!$page.props.auth.user">
                     <Button variant="link">Регистрация</Button>
                 </RegisterModal>
                 <AuthModal v-if="!$page.props.auth.user">
                     <Button variant="outline" class="transition-all hover:dark:bg-white/10">Войти</Button>
                 </AuthModal>
-                <ThemeToggle />
+                <ThemeToggle class="ml-2" />
             </div>
         </div>
     </header>

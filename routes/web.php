@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectInvitationController;
 use App\Http\Controllers\ProjectUserController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +51,9 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(TaskController::class)->group(function() {
         Route::post('/project/{id}/task/create', 'store')->name('task.store');
+    });
+    Route::controller(ReportController::class)->group(function() {
+        Route::post('/task/{id}/report', 'store')->name('report.store');
     });
 });
 

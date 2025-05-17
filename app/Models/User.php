@@ -52,13 +52,18 @@ class User extends Authenticatable
         return $this->hasOne(ProjectUser::class);
     }
 
-    public function tasks()
-    {
-        return $this->hasMany(User::class);
-    }
+    // public function tasks()
+    // {
+    //     return $this->hasMany(User::class);
+    // }
 
     public function task()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function Report()
+    {
+        return $this->hasMany(Report::class);
     }
 }

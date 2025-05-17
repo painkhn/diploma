@@ -19,7 +19,7 @@ const props = defineProps<{
 
 
 onMounted(() => {
-    console.log(props.projectUsers); // Это покажет связи ProjectUser
+    console.log(props.project.tasks); // Это покажет связи ProjectUser
 })
 </script>
 
