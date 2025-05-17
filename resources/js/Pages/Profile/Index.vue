@@ -65,7 +65,7 @@ onMounted(() => {
     <MainLayout>
         <section class="flex justify-between">
             <div class="max-w-[300px] w-full p-5 text-center space-y-8 items-start">
-                <UpdateAvatar>
+                <UpdateAvatar v-if="$page.props.auth.user.id === props.user.id">
                     <div
                         class="w-full flex items-center justify-center h-[260px] rounded-full border-2 overflow-hidden dark:border-white">
                         <Image v-if="props.user?.avatar == null" class="w-20 h-20 stroke-1 opacity-80" />
@@ -73,6 +73,12 @@ onMounted(() => {
                             class="w-full min-h-[260px]">
                     </div>
                 </UpdateAvatar>
+                <div v-else
+                    class="w-full flex items-center justify-center h-[260px] rounded-full border-2 overflow-hidden dark:border-white">
+                    <Image v-if="props.user?.avatar == null" class="w-20 h-20 stroke-1 opacity-80" />
+                    <img v-else :src="`/storage/` + props.user?.avatar" alt="Аватарка" encType="multipart/form-data"
+                        class="w-full min-h-[260px]">
+                </div>
                 <ul class="space-y-2">
                     <li>
                         <h2 class="font-semibold text-lg uppercase">{{ props.user?.name }}</h2>

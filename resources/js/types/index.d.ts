@@ -13,6 +13,7 @@ export interface Project {
     description: string;
     start_date: Date;
     end_date: Date;
+    tasks: Task[] | undefined
     // projectUser?: User | undefined;
 }
 
@@ -30,6 +31,18 @@ export interface ProjectUser {
     project_id: number;
     user_id: number;
     user: User
+}
+
+export interface Task {
+    id: number;
+    user_id: number;
+    project_id: number;
+    responsible_id: nubmer;
+    title: string;
+    description: string;
+    status: string;
+    end_date: Date;
+    responsible: User;
 }
 
 export type PageProps<

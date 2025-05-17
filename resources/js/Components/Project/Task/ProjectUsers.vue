@@ -2,13 +2,25 @@
 import { cn } from '@/lib/utils'
 import { Combobox, ComboboxAnchor, ComboboxEmpty, ComboboxGroup, ComboboxInput, ComboboxItem, ComboboxItemIndicator, ComboboxList } from '@/Components/ui/combobox'
 import { Check, Search } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const props = defineProps<{
-    projectUsers: any
+    projectUsers: any,
+    modelValue: string | number | null
 }>()
 
+const emit = defineEmits(['update:modelValue'])
+
 const selectedUser = ref()
+
+// Watch for changes in selectedUser and emit the user_id
+watch(selectedUser, (newValue) => {
+    if (newValue) {
+        emit('update:modelValue', newValue.user_id)
+    } else {
+        emit('update:modelValue', null)
+    }
+})
 </script>
 
 <template>

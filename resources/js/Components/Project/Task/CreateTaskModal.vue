@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog'
+} from '@/Components/ui/dialog'
 
 import Input from '@/Components/ui/input/Input.vue';
 import Label from '@/Components/ui/label/Label.vue';
@@ -19,15 +19,15 @@ import { ref } from 'vue'
 
 import { Project, User } from '@/types';
 import { defineProps } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
 
-const form = ref([
-    'title',
-    'description',
-    'end_date',
-    'responsible_id'
-    // 'description'
-])
+const form = useForm({
+    title: '',
+    description: '',
+    end_date: '',
+    responsible_id: ''
+})
 
 const props = defineProps<{
     project: Project,
@@ -35,7 +35,7 @@ const props = defineProps<{
 }>()
 
 const submit = () => {
-    form.post(route('task.store'), {
+    form.post(route('task.store', { id: props.project.id }), {
         onSuccess: () => {
             form.reset()
             console.log('нормас')
@@ -59,7 +59,7 @@ const submit = () => {
                     Заполните форму, чтобы создать новую задачу.
                 </DialogDescription>
             </DialogHeader>
-            <form class="space-y-4">
+            <form class="space-y-4" @submit.prevent="submit">
                 <div class="space-y-2">
                     <Label>Название задачи</Label>
                     <Input type="text" v-model="form.title" />

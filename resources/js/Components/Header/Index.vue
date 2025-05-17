@@ -3,6 +3,7 @@ import Button from '@/Components/ui/button/Button.vue'
 import NavigationMenu from '@/Components/Header/NavigationMenu.vue';
 import AuthModal from '@/Components/Header/AuthModal.vue';
 import RegisterModal from './RegisterModal.vue';
+import ThemeToggle from './ThemeToggle.vue';
 </script>
 
 <template>
@@ -22,6 +23,7 @@ import RegisterModal from './RegisterModal.vue';
                 <AuthModal v-if="!$page.props.auth.user">
                     <Button variant="outline" class="transition-all hover:dark:bg-white/10">Войти</Button>
                 </AuthModal>
+                <ThemeToggle />
             </div>
         </div>
     </header>

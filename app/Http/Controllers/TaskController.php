@@ -14,9 +14,9 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        //
+        // $task = Task::where('project_id', $id)->get();
     }
 
     /**
@@ -32,16 +32,21 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request, $id)
     {
-        $project_id = Project::where('id', $id);
-        $project_users = ProjectUser::with('user')->where('project_id', $project_id)->get();
+        // $project_id = Project::where('id', $id);
+        // $project_users = ProjectUser::with('user')->where('project_id', $project_id)->get();
+        // dd($request);
         $task = Task::create([
             'user_id' => Auth::id(),
+            'project_id' => $id,
             'responsible_id' => $request->responsible_id,
             'title' => $request->title,
             'description' => $request->description,
             'end_date' => $request->end_date,
+            'status' => 'pending'
             // 'project_users' => $project_users
         ]);
+
+        // return response()->json(['message' => 'Task created successfully'], 201);
     }
 
     /**

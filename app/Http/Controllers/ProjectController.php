@@ -17,8 +17,8 @@ class ProjectController extends Controller
     public function index($id)
     {
         $users = User::all();
-        $project = Project::with(['projectUser.user'])->where('id', $id)->first();
-        // dd($project->projectUser);
+        $project = Project::with(['projectUser.user'])->with('tasks.responsible')->where('id', $id)->first();
+        // dd($project->tasks);
         return Inertia::render('Project/Index', [
             'project' => $project,
             'users' => $users,

@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->enum('status', ['pending', 'completed', 'canceled']);
             $table->string('end_date');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('responsible_id');
+            $table->unsignedBigInteger('project_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('responsible_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

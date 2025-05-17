@@ -3,11 +3,12 @@ import AddUserModal from '@/Components/Project/AddUserModal.vue';
 import ProjectUsersList from '@/Components/Project/ProjectUsersList.vue';
 import UpdateProjectModal from '@/Components/Project/UpdateProjectModal.vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Project, User } from '@/types';
+import { Project, Task, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { UserRoundPlus } from 'lucide-vue-next';
 import { onMounted, defineProps } from 'vue';
 import CreateTaskModal from '@/Components/Project/Task/CreateTaskModal.vue'
+import TaskList from '@/Components/Project/Task/TaskList.vue';
 
 const props = defineProps<{
     project: Project
@@ -28,7 +29,7 @@ onMounted(() => {
 
     <MainLayout>
         <div class="flex justify-between">
-            <div class="w-1/2">
+            <div class="w-1/2 space-y-8">
                 <div class="w-full space-y-4">
                     <h1 class="text-4xl font-black">
                         {{ props.project.title }}
@@ -55,7 +56,10 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="">
-
+                    <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks" />
+                    <div v-else>
+                        Нет ни одной доступной задачи
+                    </div>
                 </div>
             </div>
             <div class="max-w-[280px] w-full space-y-4">
