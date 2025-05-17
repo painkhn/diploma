@@ -26,7 +26,7 @@ const deleteUser = async (userId: number) => {
                 <Link :href="route('profile.show', { id: item?.user.id })"
                     class="flex items-center gap-x-4 justify-self-start transition-all hover:opacity-80">
                 <div
-                    class="w-full max-w-10 flex items-center justify-center h-10 rounded-full border-2 overflow-hidden dark:border-white/10">
+                    class="w-10 flex items-center justify-center h-10 rounded-full border-2 overflow-hidden dark:border-white/10">
                     <Image v-if="item.user?.avatar == null" class="w-5 h-5 stroke-1 opacity-80" />
                     <img v-else :src="`/storage/` + item.user?.avatar" alt="Аватарка" encType="multipart/form-data"
                         class="w-full min-h-5">

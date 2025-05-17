@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectInvitationController;
 use App\Http\Controllers\ProjectUserController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,6 +47,9 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(ProjectUserController::class)->group(function() {
         Route::delete('/project/{id}/delete', 'destroy')->name('project.user.delete');
+    });
+    Route::controller(TaskController::class)->group(function() {
+        Route::post('/project/{id}/task/create');
     });
 });
 

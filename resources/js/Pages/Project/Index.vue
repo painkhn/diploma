@@ -6,7 +6,8 @@ import MainLayout from '@/Layouts/MainLayout.vue';
 import { Project, User } from '@/types';
 import { Head } from '@inertiajs/vue3';
 import { UserRoundPlus } from 'lucide-vue-next';
-import { onMounted } from 'vue';
+import { onMounted, defineProps } from 'vue';
+import CreateTaskModal from '@/Components/Project/Task/CreateTaskModal.vue'
 
 const props = defineProps<{
     project: Project
@@ -45,6 +46,11 @@ onMounted(() => {
                             <UpdateProjectModal :project="props.project">
                                 Редактировать тему
                             </UpdateProjectModal>
+                        </div>
+                        <div>
+                            <CreateTaskModal :project="props.project" :project-users="props.projectUsers">
+                                Добавить новую задачу
+                            </CreateTaskModal>
                         </div>
                     </div>
                 </div>
