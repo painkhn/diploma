@@ -36,16 +36,16 @@ onMounted(() => {
                             {{ props.project.title }}
                         </h1>
                         <span class="text-4xl">|</span>
-                        <Link class="text-2xl opacity-80 transition-all hover:opacity-100 font-semibold" :href="route('profile.show', { id: props.project.user_id })">({{ props.project.user.name }})</Link>
+                        <Link class="text-2xl opacity-80 transition-all hover:opacity-100 font-semibold mt-1" :href="route('profile.show', { id: props.project.user_id })">({{ props.project.user.name }})</Link>
                     </div>
                     <p class="text-2xl opacity-80">
                         {{ props.project.description }}
                     </p>
                     <div class="opacity-80 font-semibold flex items-center gap-x-8">
                         <p>
-                            {{ props.project.start_date }}
+                            {{ new Date(props.project.start_date).toLocaleDateString() }}
                             -
-                            {{ props.project.end_date }}
+                            {{ new Date(props.project.end_date).toLocaleDateString() }}
                         </p>
                         <div v-if="$page.props.auth.user.id === props.project.user.id">
                             <UpdateProjectModal :project="props.project">

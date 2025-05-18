@@ -41,7 +41,7 @@ const props = defineProps<{
                 <li>
                     <div class="flex items-center gap-x-2 opacity-60 text-sm font-semibold">
                         <CalendarCheck class="w-5 h-5" />
-                        Дата окончания: {{ props.task.end_date }}
+                        Дата окончания: {{ new Date(props.task.end_date).toLocaleDateString() }}
                     </div>
                 </li>
             </ul>
