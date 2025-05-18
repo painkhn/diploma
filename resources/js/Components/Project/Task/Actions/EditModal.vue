@@ -76,7 +76,8 @@ const submit = () => {
                     <Label>Ответственный пользователь</Label>
                     <ProjectUsers :project-users="props.projectUsers" v-model="form.responsible_id" />
                 </div>
-                <Button type="submit" class="w-full">Создать</Button>
+                <Button type="submit"
+                    class="w-full transition-all bg-white text-black hover:bg-gray-200">Создать</Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->
