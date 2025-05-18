@@ -55,6 +55,9 @@ Route::middleware('auth')->group(function () {
     Route::controller(ReportController::class)->group(function() {
         Route::post('/task/{id}/report', 'store')->name('report.store');
     });
+    Route::controller(TaskController::class)->group(function() {
+        Route::patch('/task/{task}/update', 'update')->name('task.update');
+    });
 });
 
 Route::get('/auth/github', [GithubAuthController::class, 'redirect'])->name('github.login');

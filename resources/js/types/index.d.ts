@@ -41,7 +41,7 @@ export interface Task {
     title: string;
     description: string;
     status: string;
-    end_date: Date;
+    end_date: string;
     responsible: User;
     reports: Report[] | undefined
 }

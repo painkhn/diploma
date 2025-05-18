@@ -56,7 +56,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="">
-                    <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks" />
+                    <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks" :project-users="props.projectUsers" />
                     <div v-else>
                         Нет ни одной доступной задачи
                     </div>

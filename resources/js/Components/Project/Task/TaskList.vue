@@ -8,12 +8,13 @@ import {
     TableHeader,
     TableRow,
 } from '@/Components/ui/table'
-import { Task } from '@/types';
+import { ProjectUser, Task } from '@/types';
 import { DefineProps } from 'vue';
 import ActionDropdown from './ActionDropdown.vue';
 
 const props = defineProps<{
     tasks: Task[] | undefined
+    projectUsers: ProjectUser[] | undefined
 }>()
 </script>
 
@@ -46,7 +47,7 @@ const props = defineProps<{
                 </TableCell>
                 <TableCell>{{ item.responsible.name }}</TableCell>
                 <TableCell class="text-right">
-                    <ActionDropdown :task="item" />
+                    <ActionDropdown :task="item" :project-users="props.projectUsers" />
                 </TableCell>
             </TableRow>
         </TableBody>

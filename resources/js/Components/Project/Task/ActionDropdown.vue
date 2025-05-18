@@ -9,12 +9,14 @@ import {
 } from '@/Components/ui/dropdown-menu'
 import { Ellipsis } from 'lucide-vue-next';
 import MoreModal from './Actions/MoreModal.vue';
-import { Task } from '@/types';
+import { ProjectUser, Task } from '@/types';
 import ReportFormModal from './Actions/ReportFormModal.vue';
 import ReportListModal from './Actions/ReportListModal.vue';
+import EditModal from './Actions/EditModal.vue';
 
 const props = defineProps<{
     task: Task
+    projectUsers: ProjectUser[] | undefined
 }>()
 </script>
 
@@ -33,7 +35,8 @@ const props = defineProps<{
             <ReportListModal :task="props.task" :reports="props.task.reports">Список отчётов</ReportListModal>
             <!-- </DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Отправить отчёт</DropdownMenuItem> -->
-            <DropdownMenuItem>Редактировать</DropdownMenuItem>
+            <EditModal :task="props.task" :project-users="props.projectUsers">Редактировать</EditModal>
+            <!-- <DropdownMenuItem>Редактировать</DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Subscription</DropdownMenuItem> -->
         </DropdownMenuContent>
     </DropdownMenu>
