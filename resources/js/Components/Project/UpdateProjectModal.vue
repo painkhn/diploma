@@ -15,17 +15,30 @@ import Button from '../ui/button/Button.vue';
 import Textarea from '../ui/textarea/Textarea.vue';
 import { Project } from '@/types';
 import { ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps<{
     project: Project
 }>()
 
-const form = ref({
+const form = useForm({
     title: props.project.title,
     description: props.project.description,
     start_date: props.project.start_date,
     end_date: props.project.end_date
 });
+
+const submit = () => {
+    form.patch(route('project.update', { project: props.project.id }), {
+        onSuccess: () => {
+            form.reset()
+            console.log('успешно')
+        },
+        onError: () => {
+            console.log('error')
+        }
+    })
+}
 </script>
 
 <template>
@@ -40,7 +53,7 @@ const form = ref({
                     Введите новые данные, чтобы редактировать тему.
                 </DialogDescription>
             </DialogHeader>
-            <form class="space-y-4">
+            <form class="space-y-4" @submit.prevent="submit">
                 <div class="space-y-2">
                     <Label>Название темы</Label>
                     <Input type="text" v-model="form.title" />

@@ -8,13 +8,14 @@ import {
     TableHeader,
     TableRow,
 } from '@/Components/ui/table'
-import { ProjectUser, Task } from '@/types';
+import { Project, ProjectUser, Task } from '@/types';
 import { DefineProps } from 'vue';
 import ActionDropdown from './ActionDropdown.vue';
 
 const props = defineProps<{
     tasks: Task[] | undefined
     projectUsers: ProjectUser[] | undefined
+    project: Project
 }>()
 </script>
 
@@ -41,13 +42,16 @@ const props = defineProps<{
                 </TableCell>
                 <TableCell>
                     <div class="flex items-center gap-x-2">
-                        <div :class="item.status === 'pending' ? 'bg-yellow-400' : ''" class="w-2 h-2 rounded-full"></div>
+                        <div v-if="item.status === 'pending'" :class="item.status === 'pending' ? 'bg-yellow-400' : ''" class="w-2 h-2 rounded-full"></div>
+                        <div v-if="item.status === 'consideration'" :class="item.status === 'consideration' ? 'bg-blue-400' : ''" class="w-2 h-2 rounded-full"></div>
+                        <div v-if="item.status === 'completed'" :class="item.status === 'completed' ? 'bg-green-400' : ''" class="w-2 h-2 rounded-full"></div>
+                        <div v-if="item.status === 'canceled'" :class="item.status === 'canceled' ? 'bg-red-400' : ''" class="w-2 h-2 rounded-full"></div>
                         {{ item.status }}
                     </div>
                 </TableCell>
                 <TableCell>{{ item.responsible.name }}</TableCell>
                 <TableCell class="text-right">
-                    <ActionDropdown :task="item" :project-users="props.projectUsers" />
+                    <ActionDropdown :project="props.project" :task="item" :project-users="props.projectUsers" />
                 </TableCell>
             </TableRow>
         </TableBody>

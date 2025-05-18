@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->enum('status', ['pending', 'completed', 'canceled']);
+            $table->enum('status', ['pending', 'completed', 'canceled', 'consideration']);
             $table->string('end_date');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('responsible_id');

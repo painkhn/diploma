@@ -9,7 +9,7 @@ import {
 } from '@/Components/ui/dropdown-menu'
 import { Ellipsis } from 'lucide-vue-next';
 import MoreModal from './Actions/MoreModal.vue';
-import { ProjectUser, Task } from '@/types';
+import { Project, ProjectUser, Task } from '@/types';
 import ReportFormModal from './Actions/ReportFormModal.vue';
 import ReportListModal from './Actions/ReportListModal.vue';
 import EditModal from './Actions/EditModal.vue';
@@ -17,6 +17,7 @@ import EditModal from './Actions/EditModal.vue';
 const props = defineProps<{
     task: Task
     projectUsers: ProjectUser[] | undefined
+    project: Project
 }>()
 </script>
 
@@ -31,11 +32,11 @@ const props = defineProps<{
             <DropdownMenuSeparator />
             <!-- <DropdownMenuItem> -->
             <MoreModal :task="props.task">Подробнее</MoreModal>
-            <ReportFormModal :task="props.task">Отправить отчёт</ReportFormModal>
-            <ReportListModal :task="props.task" :reports="props.task.reports">Список отчётов</ReportListModal>
+            <ReportFormModal :task="props.task" v-if="($page.props.auth.user.id === props.task.responsible.id) && (props.task.status === 'pending')">Отправить отчёт</ReportFormModal>
+            <ReportListModal v-if="$page.props.auth.user.id === props.project.user.id" :task="props.task" :reports="props.task.reports">Список отчётов</ReportListModal>
             <!-- </DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Отправить отчёт</DropdownMenuItem> -->
-            <EditModal :task="props.task" :project-users="props.projectUsers">Редактировать</EditModal>
+            <EditModal v-if="$page.props.auth.user.id === props.project.user.id" :task="props.task" :project-users="props.projectUsers">Редактировать</EditModal>
             <!-- <DropdownMenuItem>Редактировать</DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Subscription</DropdownMenuItem> -->
         </DropdownMenuContent>

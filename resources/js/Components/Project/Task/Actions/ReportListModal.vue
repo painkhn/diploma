@@ -10,10 +10,11 @@ import {
 } from '@/Components/ui/dialog'
 import ScrollArea from './ReportList/ScrollArea.vue';
 import { onMounted } from 'vue';
-import { Report } from '@/types';
+import { Report, Task } from '@/types';
 
 const props = defineProps<{
     reports: Report[] | undefined
+    task: Task
 }>()
 
 // onMounted(() => {
@@ -34,7 +35,7 @@ const props = defineProps<{
                     Здесь вы можете посмотреть список всех отчётов по данной задаче.
                 </DialogDescription>
             </DialogHeader>
-            <ScrollArea :reports="props.reports" />
+            <ScrollArea :task="props.task" :reports="props.reports" />
             <DialogFooter>
                 <!-- Save changes -->
             </DialogFooter>

@@ -14,6 +14,7 @@ export interface Project {
     start_date: Date;
     end_date: Date;
     tasks: Task[] | undefined;
+    user: User
     // projectUser?: User | undefined;
 }
 

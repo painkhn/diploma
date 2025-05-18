@@ -20,7 +20,7 @@ const deleteUser = async (userId: number) => {
 </script>
 
 <template>
-    <ul>
+    <ul class="space-y-4">
         <li v-for="(item, index) in props.projectUsers" :key="index">
             <div class="grid grid-cols-2 items-center px-5">
                 <Link :href="route('profile.show', { id: item?.user.id })"

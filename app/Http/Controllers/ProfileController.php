@@ -15,12 +15,26 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    public function show($id) {
-        $invitations = ProjectInvitation::where('recipient_id', $id)->where('status', 'pending')->get();
+    public function show($id) 
+    {
+        $invitations = ProjectInvitation::where('recipient_id', $id)
+            ->where('status', 'pending')
+            ->get();
+        
         $user = User::findOrFail($id);
-        $projects = Project::where('user_id', $user->id)->get();
-        // dd($projects);
-        // dd($user);
+        
+        // Получаем проекты, где пользователь либо владелец, либо участник
+        $projects = Project::with(['projectUser' => function($query) use ($id) {
+                $query->where('user_id', $id);
+            }])
+            ->where(function($query) use ($user, $id) {
+                $query->where('user_id', $user->id) // проекты, где пользователь владелец
+                    ->orWhereHas('projectUser', function($q) use ($id) {
+                        $q->where('user_id', $id); // или участник
+                    });
+            })
+            ->get();
+        
         return Inertia::render('Profile/Index', [
             'user' => $user,
             'projects' => $projects,

@@ -33,6 +33,9 @@ class ReportController extends Controller
     {
         $user_id = Auth::id();
         $task = Task::where('id', $id)->first();
+        $task->update([
+            'status' => 'consideration' 
+        ]);
         $task = Report::create([
             'content' => $request->content,
             'user_id' => $user_id,

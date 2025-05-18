@@ -110,7 +110,11 @@ onMounted(() => {
                         <Link :href="route('project.index', { id: item.id })">
                         <div
                             class="w-full py-2 border-l dark:border-white px-8 transition-all hover:border-l-4 hover:dark:bg-white/5">
-                            <h2 class="text-2xl font-semibold">{{ item.title }}</h2>
+                            <div class="flex items-center gap-x-2">
+                                <h2 class="text-2xl font-semibold">{{ item.title }}</h2>
+                                <span v-if="item.user_id === props.user.id" class="opacity-80 mt-1 font-semibold">(Администратор)</span>
+                                <span v-else class="opacity-80 mt-1 font-semibold">(Участник)</span>
+                            </div>
                             <p class="line-clamp-1 opacity-80">
                                 {{ item.description }}
                             </p>

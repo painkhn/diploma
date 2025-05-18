@@ -28,7 +28,8 @@ const form = useForm({
     title: props.task.title,
     description: props.task.description,
     end_date: props.task.end_date,
-    responsible_id: props.task.responsible_id
+    responsible_id: props.task.responsible_id,
+    status: props.task.status
 })
 
 const submit = () => {

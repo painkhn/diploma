@@ -4,7 +4,7 @@ import ProjectUsersList from '@/Components/Project/ProjectUsersList.vue';
 import UpdateProjectModal from '@/Components/Project/UpdateProjectModal.vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { Project, Task, User } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import { UserRoundPlus } from 'lucide-vue-next';
 import { onMounted, defineProps } from 'vue';
 import CreateTaskModal from '@/Components/Project/Task/CreateTaskModal.vue'
@@ -31,9 +31,13 @@ onMounted(() => {
         <div class="flex justify-between">
             <div class="w-1/2 space-y-8">
                 <div class="w-full space-y-4">
-                    <h1 class="text-4xl font-black">
-                        {{ props.project.title }}
-                    </h1>
+                    <div class="flex items-center gap-x-4">
+                        <h1 class="text-4xl font-black">
+                            {{ props.project.title }}
+                        </h1>
+                        <span class="text-4xl">|</span>
+                        <Link class="text-2xl opacity-80 transition-all hover:opacity-100 font-semibold" :href="route('profile.show', { id: props.project.user_id })">({{ props.project.user.name }})</Link>
+                    </div>
                     <p class="text-2xl opacity-80">
                         {{ props.project.description }}
                     </p>
@@ -43,12 +47,12 @@ onMounted(() => {
                             -
                             {{ props.project.end_date }}
                         </p>
-                        <div>
+                        <div v-if="$page.props.auth.user.id === props.project.user.id">
                             <UpdateProjectModal :project="props.project">
-                                Редактировать тему
+                                Редактировать проект
                             </UpdateProjectModal>
                         </div>
-                        <div>
+                        <div v-if="$page.props.auth.user.id === props.project.user.id">
                             <CreateTaskModal :project="props.project" :project-users="props.projectUsers">
                                 Добавить новую задачу
                             </CreateTaskModal>
@@ -56,7 +60,8 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="">
-                    <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks" :project-users="props.projectUsers" />
+                    <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks" :project="props.project"
+                        :project-users="props.projectUsers" />
                     <div v-else>
                         Нет ни одной доступной задачи
                     </div>

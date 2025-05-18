@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(ProjectController::class)->group(function() {
         Route::get('/project/{id}', 'index')->name('project.index');
+        Route::patch('/project/{project}/update', 'update')->name('project.update');
         Route::post('/project/create', 'store')->name('project.store');
     });
     Route::controller(ProjectInvitationController::class)->group(function() {
