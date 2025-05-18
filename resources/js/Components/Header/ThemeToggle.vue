@@ -5,26 +5,28 @@ import { ref, onMounted } from 'vue';
 
 const theme = ref<'light' | 'dark'>('light');
 
-// Проверяем сохранённую тему или системные настройки
 onMounted(() => {
+    // Проверяем localStorage и системные настройки
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     theme.value = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-    applyTheme();
+    applyThemeToDocument();
 });
 
 const toggleTheme = () => {
     theme.value = theme.value === 'dark' ? 'light' : 'dark';
-    applyTheme();
+    applyThemeToDocument();
     localStorage.setItem('theme', theme.value);
 };
 
-const applyTheme = () => {
+// Функция для применения темы ко всему документу
+const applyThemeToDocument = () => {
+    const body = document.body;
     if (theme.value === 'dark') {
-        document.documentElement.classList.add('dark');
+        body.classList.add('dark');
     } else {
-        document.documentElement.classList.remove('dark');
+        body.classList.remove('dark');
     }
 };
 </script>

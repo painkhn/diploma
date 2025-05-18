@@ -10,7 +10,7 @@ import ThemeToggle from './ThemeToggle.vue';
     <header class="w-full p-5">
         <div class="grid grid-cols-3">
             <div class="justify-self-start">
-                <a class="dark:text-white text-2xl font-semibold transition-all hover:opacity-80"
+                <a class="text-black dark:text-white text-2xl font-semibold transition-all hover:opacity-80"
                     href="/">TechProject</a>
             </div>
             <div class="justify-self-center items-center">
