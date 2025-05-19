@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Image, Trash2 } from 'lucide-vue-next';
 
 const props = defineProps<{
-    projectUsers: ProjectUser[]
+    projectUsers: ProjectUser[] | undefined
 }>()
 
 const deleteUser = async (userId: number) => {

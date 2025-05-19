@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import Button from '@/Components/ui/button/Button.vue';
+import Input from '@/Components/ui/input/Input.vue';
+import Label from '@/Components/ui/label/Label.vue';
 import { ScrollArea } from '@/Components/ui/scroll-area'
 import { Separator } from '@/Components/ui/separator'
+import Textarea from '@/Components/ui/textarea/Textarea.vue';
 import { Report, Task } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { Check, X } from 'lucide-vue-next';
@@ -49,12 +53,13 @@ const reject = () => {
     });
 }
 
-const downloadReport = (reportContent: string) => {
+const downloadReport = (reportContent: string, reportUser: string) => {
     const workbook = utils.book_new();
 
     // Подготавливаем данные с заголовками
     const data = [
         ["Поле", "Значение"],
+        ["Ответственный", reportUser],
         ["Задача", props.task.title],
         ["Статус", props.task.status],
         ["Дата создания", new Date(props.task.created_at).toLocaleDateString()],
@@ -86,6 +91,11 @@ const downloadReport = (reportContent: string) => {
 
     writeFile(workbook, `Отчет_по_задаче_${props.task.title}.xlsx`);
 };
+
+const rejectForm = () => {
+    const form = document.querySelector('.rejectForm')
+    form?.classList.toggle('hidden')
+}
 </script>
 
 <template>
@@ -97,20 +107,28 @@ const downloadReport = (reportContent: string) => {
 
             <div v-for="(item, index) in props.reports" :key="index">
                 <div class="flex items-center gap-x-4">
-                    <button @click="downloadReport(item.content)"
+                    <button @click="downloadReport(item.content, item.user.name)"
                         class="text-sm w-full text-left line-clamp-1 p-2 rounded-md transition-all hover:dark:bg-white/10">
                         <!-- {{ tag }} -->
-                        {{ item.content }}
+                        {{ item.user.name }}
                     </button>
                     <div class="flex items-center gap-x-2">
                         <button @click="confirm">
                             <Check class="text-green-400 transition-all hover:text-green-500" />
                         </button>
-                        <button @click="reject()">
+                        <button @click="reject">
                             <X class="text-red-400 transition-all hover:text-red-500" />
                         </button>
                     </div>
                 </div>
+                <form class="space-y-4 rejectForm hidden">
+                    <div>
+                        <Label>Сообщение</Label>
+                        <Textarea type="text" />
+                    </div>
+                    <Button
+                        class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Отправить</Button>
+                </form>
                 <Separator class="my-2" />
             </div>
         </div>

@@ -9,6 +9,8 @@
         "@inertiajs/vue3": "^2.0.0",
         "@tailwindcss/forms": "^0.5.3",
         "@tailwindcss/vite": "^4.0.0",
+        "@types/topojson": "^3.2.6",
+        "@types/topojson-specification": "^1.0.5",
         "@vitejs/plugin-vue": "^5.0.0",
         "autoprefixer": "^10.4.12",
         "axios": "^1.8.2",
@@ -22,6 +24,9 @@
         "vue-tsc": "^2.0.24"
     },
     "dependencies": {
+        "@tanstack/vue-table": "^8.21.3",
+        "@unovis/ts": "^1.5.1",
+        "@unovis/vue": "^1.5.1",
         "@vee-validate/zod": "^4.15.0",
         "@vueuse/core": "^13.2.0",
         "class-variance-authority": "^0.7.1",

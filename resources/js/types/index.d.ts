@@ -14,7 +14,7 @@ export interface Project {
     start_date: Date;
     end_date: Date;
     tasks: Task[] | undefined;
-    user: User
+    user: User;
     // projectUser?: User | undefined;
 }
 
@@ -44,8 +44,8 @@ export interface Task {
     status: string;
     end_date: string;
     responsible: User;
-    reports: Report[] | undefined
-    created_at: Date
+    reports: Report[] | undefined;
+    created_at: Date;
 }
 
 export interface Report {
@@ -53,6 +53,17 @@ export interface Report {
     task_id: number;
     user_id: number;
     content: string;
+    user: User;
+}
+
+export interface ChartDataItem {
+    name: string;
+    total: number;
+    user: {
+        id: number;
+        name: string;
+        email: string;
+    };
 }
 
 export type PageProps<

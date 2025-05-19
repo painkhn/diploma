@@ -73,7 +73,7 @@ const submit = () => {
                     </div>
                 </div>
                 <Button type="submit" variant="default"
-                    class="w-full transition-all bg-white text-black hover:bg-gray-200">Сохранить</Button>
+                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Сохранить</Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->

@@ -21,7 +21,7 @@ import ThemeToggle from './ThemeToggle.vue';
                     <Button variant="link">Регистрация</Button>
                 </RegisterModal>
                 <AuthModal v-if="!$page.props.auth.user">
-                    <Button variant="outline" class="transition-all hover:dark:bg-white/10">Войти</Button>
+                    <Button variant="outline" class="transition-all hover:bg-black/10 hover:dark:bg-white/10">Войти</Button>
                 </AuthModal>
                 <ThemeToggle class="ml-2" />
             </div>

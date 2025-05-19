@@ -66,7 +66,8 @@ const submit = async () => {
                     <Label for="picture">Выберите изображение</Label>
                     <Input @change="handleFileChange" id="picture" type="file" class="cursor-pointer text-white" />
                 </div>
-                <Button type="submit" class="transition-all bg-white text-black hover:bg-gray-200">Сохранить</Button>
+                <Button type="submit"
+                    class="transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Сохранить</Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->
