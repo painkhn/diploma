@@ -59,7 +59,7 @@ const colors = computed(() => {
 </script>
 
 <template>
-    <div class="rounded-lg p-4 shadow">
+    <div class="rounded-lg p-4 shadow max-[840px]:pt-0">
         <h3 class="text-lg font-semibold mb-4 text-center">
             Распределение задач по пользователям
         </h3>

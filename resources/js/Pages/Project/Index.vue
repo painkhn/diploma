@@ -28,8 +28,8 @@ const props = defineProps<{
     <Head :title="props.project.title" />
 
     <MainLayout>
-        <div class="flex justify-between gap-8">
-            <div class="w-1/2 space-y-8">
+        <div class="flex justify-between gap-8 max-[1270px]:gap-0 max-[840px]:flex-col">
+            <div class="w-1/2 space-y-8 max-[840px]:w-full">
                 <div class="w-full space-y-4">
                     <div class="flex items-center gap-x-4">
                         <h1 class="text-4xl font-black">
@@ -43,21 +43,24 @@ const props = defineProps<{
                     <p class="text-2xl opacity-80">
                         {{ props.project.description }}
                     </p>
-                    <div class="opacity-80 font-semibold flex items-center gap-x-8">
+                    <div
+                        class="opacity-80 font-semibold flex items-center gap-x-8 max-[1230px]:flex-col max-[1230px]:items-start max-[1230px]:gap-y-4">
                         <p>
                             {{ new Date(props.project.start_date).toLocaleDateString() }}
                             -
                             {{ new Date(props.project.end_date).toLocaleDateString() }}
                         </p>
-                        <div v-if="$page.props.auth.user.id === props.project.user.id">
-                            <UpdateProjectModal :project="props.project">
-                                Редактировать проект
-                            </UpdateProjectModal>
-                        </div>
-                        <div v-if="$page.props.auth.user.id === props.project.user.id">
-                            <CreateTaskModal :project="props.project" :project-users="props.projectUsers">
-                                Добавить новую задачу
-                            </CreateTaskModal>
+                        <div class="gap-x-8 flex items-center">
+                            <div v-if="$page.props.auth.user.id === props.project.user.id">
+                                <UpdateProjectModal :project="props.project">
+                                    Редактировать проект
+                                </UpdateProjectModal>
+                            </div>
+                            <div v-if="$page.props.auth.user.id === props.project.user.id">
+                                <CreateTaskModal :project="props.project" :project-users="props.projectUsers">
+                                    Добавить новую задачу
+                                </CreateTaskModal>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,13 +73,15 @@ const props = defineProps<{
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-3 w-1/2 justify-end gap-x-4">
-                <div class="w-[400px] col-span-2 justify-self-center"
+            <div
+                class="flex w-1/2 max-[840px]:w-full max-[840px]:flex-row-reverse justify-between max-[1400px]:justify-end max-[1400px]:gap-y-8 max-[840px]:gap-y-0 max-[1400px]:flex-col-reverse max-[560px]:flex-col-reverse max-[560px]:gap-y-4">
+                <div class="w-2/3 max-[1400px]:w-full max-[1400px]:items-start max-[840px]:w-1/2 max-[560px]:w-full"
                     v-if="$page.props.auth.user.id === props.project.user.id">
                     <Chart :tasks="props.project.tasks" :project-users="props.projectUsers" :project="props.project" />
                 </div>
-                <div v-else class="col-span-2"></div>
-                <div class="max-w-[280px] col-span-1 w-full space-y-4 justify-self-end">
+                <!-- <div v-else class="col-span-2"></div> -->
+                <div
+                    class="w-1/3 max-[1400px]:max-w-[300px] max-[1400px]:w-full max-[840px]:w-1/2 max-[1400px]:mx-auto max-[560px]:w-full space-y-4 justify-self-end">
                     <h2 class="text-2xl font-semibold text-center">
                         Пользователи проекта
                     </h2>

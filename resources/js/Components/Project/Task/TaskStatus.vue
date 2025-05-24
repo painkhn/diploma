@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="flex items-center gap-x-2">
+    <div class="flex items-center gap-x-2 text-nowrap">
         <div v-if="task.status === 'pending'" :class="task.status === 'pending' ? 'bg-yellow-400' : ''"
             class="w-2 h-2 rounded-full"></div>
         <div v-if="task.status === 'consideration'" :class="task.status === 'consideration' ? 'bg-blue-400' : ''"

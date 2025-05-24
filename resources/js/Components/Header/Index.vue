@@ -8,12 +8,12 @@ import ThemeToggle from './ThemeToggle.vue';
 
 <template>
     <header class="w-full p-5">
-        <div class="grid grid-cols-3 items-center">
+        <div class="grid grid-cols-3 max-[500px]:grid-cols-2 items-center">
             <div class="justify-self-start">
                 <a class="text-black dark:text-white text-2xl font-semibold transition-all hover:opacity-80"
                     href="/">TechProject</a>
             </div>
-            <div class="justify-self-center items-center">
+            <div class="justify-self-center max-[500px]:hidden items-center">
                 <NavigationMenu v-if="$page.props.auth.user" />
             </div>
             <div class="justify-self-end flex items-center">
@@ -21,9 +21,11 @@ import ThemeToggle from './ThemeToggle.vue';
                     <Button variant="link">Регистрация</Button>
                 </RegisterModal>
                 <AuthModal v-if="!$page.props.auth.user">
-                    <Button variant="outline" class="transition-all hover:bg-black/10 hover:dark:bg-white/10">Войти</Button>
+                    <Button variant="outline"
+                        class="transition-all hover:bg-black/10 hover:dark:bg-white/10">Войти</Button>
                 </AuthModal>
-                <ThemeToggle class="ml-2" />
+                <NavigationMenu v-if="$page.props.auth.user" class="hidden max-[500px]:block" />
+                <ThemeToggle class="ml-2 max-[330px]:ml-0" />
             </div>
         </div>
     </header>
