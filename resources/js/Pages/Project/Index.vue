@@ -18,9 +18,9 @@ const props = defineProps<{
     projectUsers: ProjectUser[] | undefined
 }>()
 
-onMounted(() => {
-    console.log(props.project.tasks); // Это покажет связи ProjectUser
-})
+// onMounted(() => {
+//     console.log(props.project.tasks);
+// })
 </script>
 
 <template>

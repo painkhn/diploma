@@ -53,8 +53,7 @@ onMounted(() => {
     updateDateTime();
     updateTime();
     intervalId = setInterval(updateTime, 1000);
-    console.log(props.invitations);
-    
+    // console.log(props.invitations);
 })
 </script>
 
