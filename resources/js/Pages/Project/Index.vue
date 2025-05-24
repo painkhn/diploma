@@ -6,7 +6,7 @@ import MainLayout from '@/Layouts/MainLayout.vue';
 import { Project, ProjectUser, Task, User } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 import { UserRoundPlus } from 'lucide-vue-next';
-import { onMounted, defineProps } from 'vue';
+import { defineProps } from 'vue';
 import CreateTaskModal from '@/Components/Project/Task/CreateTaskModal.vue'
 import TaskList from '@/Components/Project/Task/TaskList.vue';
 import Chart from '@/Components/Project/Chart.vue';
@@ -62,7 +62,7 @@ const props = defineProps<{
                     </div>
                 </div>
                 <div class="space-y-4">
-                    
+
                     <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks"
                         :project="props.project" :project-users="props.projectUsers" />
                     <div v-else>
@@ -73,7 +73,7 @@ const props = defineProps<{
             <div class="grid grid-cols-3 w-1/2 justify-end gap-x-4">
                 <div class="w-[400px] col-span-2 justify-self-center"
                     v-if="$page.props.auth.user.id === props.project.user.id">
-                    <Chart :tasks="props.project.tasks" :project-users="props.projectUsers" />
+                    <Chart :tasks="props.project.tasks" :project-users="props.projectUsers" :project="props.project" />
                 </div>
                 <div v-else class="col-span-2"></div>
                 <div class="max-w-[280px] col-span-1 w-full space-y-4 justify-self-end">

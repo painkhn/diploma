@@ -12,6 +12,7 @@ import { Project, ProjectUser, Task } from '@/types';
 import { ref, computed } from 'vue';
 import ActionDropdown from './ActionDropdown.vue';
 import TaskSearch from '@/Components/Project/Search/TaskSearch.vue';
+import TaskStatus from './TaskStatus.vue';
 
 const props = defineProps<{
     tasks: Task[] | undefined
@@ -51,19 +52,7 @@ const filteredTasks = computed(() => {
                     {{ item.title }}
                 </TableCell>
                 <TableCell>
-                    <div class="flex items-center gap-x-2">
-                        <div v-if="item.status === 'pending'" :class="item.status === 'pending' ? 'bg-yellow-400' : ''"
-                            class="w-2 h-2 rounded-full"></div>
-                        <div v-if="item.status === 'consideration'"
-                            :class="item.status === 'consideration' ? 'bg-blue-400' : ''" class="w-2 h-2 rounded-full">
-                        </div>
-                        <div v-if="item.status === 'completed'"
-                            :class="item.status === 'completed' ? 'bg-green-400' : ''" class="w-2 h-2 rounded-full">
-                        </div>
-                        <div v-if="item.status === 'canceled'" :class="item.status === 'canceled' ? 'bg-red-400' : ''"
-                            class="w-2 h-2 rounded-full"></div>
-                        {{ item.status }}
-                    </div>
+                    <TaskStatus :task="item" />
                 </TableCell>
                 <TableCell>{{ item.responsible.name }}</TableCell>
                 <TableCell class="text-right">

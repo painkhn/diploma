@@ -1,35 +1,55 @@
 <script setup lang="ts">
 import { DonutChart } from '@/Components/ui/chart-donut'
 import { generateColors } from '@/lib/colors';
-import { ChartDataItem, ProjectUser, Task } from '@/types';
+import { ChartDataItem, Project, ProjectUser, Task } from '@/types';
 import { computed } from 'vue';
 
 const props = defineProps<{
     projectUsers: ProjectUser[] | undefined
     tasks: Task[] | undefined
+    project: Project // Добавляем пропс проекта
 }>()
 
 // Подготавливаем данные для графика
 const chartData = computed<ChartDataItem[]>(() => {
-    if (!props.projectUsers || !props.tasks) return [];
+    if (!props.tasks || !props.project) return [];
 
-    return props.projectUsers
+    // Явно указываем тип для владельца проекта
+    const projectOwner: ProjectUser = {
+        id: 0, // временный ID, так как владелец может не быть в projectUsers
+        project_id: props.project.id,
+        user_id: props.project.user_id,
+        user: {
+            ...props.project.user,
+            is_owner: true
+        },
+        is_owner: true
+    };
+
+    // Создаем массив всех пользователей
+    const allUsers: (ProjectUser)[] = [
+        projectOwner,
+        ...(props.projectUsers || [])
+    ];
+
+    return allUsers
         .map(user => {
             const taskCount = props.tasks!.filter(task =>
                 task.responsible_id === user.user_id
             ).length;
 
             return {
-                name: user.user.name,
+                name: user.is_owner ? `${user.user.name} (Владелец)` : user.user.name,
                 total: taskCount,
                 user: {
                     id: user.user.id,
                     name: user.user.name,
-                    email: user.user.email
+                    email: user.user.email,
+                    is_owner: user.is_owner || false
                 }
             };
         })
-        .filter((user): user is ChartDataItem => user.total > 0); // Type guard для фильтрации
+        .filter((user): user is ChartDataItem => user.total > 0);
 });
 
 // Цвета для графика

@@ -4,6 +4,7 @@ export interface User {
     avatar: string;
     email: string;
     email_verified_at?: string;
+    is_owner?: boolean;
 }
 
 export interface Project {
@@ -32,6 +33,7 @@ export interface ProjectUser {
     project_id: number;
     user_id: number;
     user: User;
+    is_owner?: boolean;
 }
 
 export interface Task {
@@ -63,6 +65,7 @@ export interface ChartDataItem {
         id: number;
         name: string;
         email: string;
+        is_owner: boolean;
     };
 }
 
