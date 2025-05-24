@@ -11,15 +11,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
 Route::get('/', function() {
     return Inertia::render('Welcome');
 })->name('home');
@@ -65,3 +56,6 @@ Route::get('/auth/github', [GithubAuthController::class, 'redirect'])->name('git
 Route::get('/auth/github/callback', [GithubAuthController::class, 'callback']);
 
 require __DIR__.'/auth.php';
+
+
+

@@ -11,13 +11,12 @@ import CreateTaskModal from '@/Components/Project/Task/CreateTaskModal.vue'
 import TaskList from '@/Components/Project/Task/TaskList.vue';
 import Chart from '@/Components/Project/Chart.vue';
 
+
 const props = defineProps<{
     project: Project
     users: User[]
     projectUsers: ProjectUser[] | undefined
 }>()
-
-
 
 onMounted(() => {
     console.log(props.project.tasks); // Это покажет связи ProjectUser
@@ -62,7 +61,8 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <div class="">
+                <div class="space-y-4">
+                    
                     <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks"
                         :project="props.project" :project-users="props.projectUsers" />
                     <div v-else>

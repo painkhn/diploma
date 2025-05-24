@@ -8,7 +8,7 @@ import ThemeToggle from './ThemeToggle.vue';
 
 <template>
     <header class="w-full p-5">
-        <div class="grid grid-cols-3">
+        <div class="grid grid-cols-3 items-center">
             <div class="justify-self-start">
                 <a class="text-black dark:text-white text-2xl font-semibold transition-all hover:opacity-80"
                     href="/">TechProject</a>
