@@ -35,7 +35,7 @@ const form = useForm({
 const submit = () => {
     form.patch(route('task.update', { task: props.task.id }), {
         onSuccess: () => {
-            form.reset()
+            form.reset('title')
             console.log('успешно');
             location.reload();
         },
@@ -74,7 +74,7 @@ const submit = () => {
                 </div>
                 <div class="space-y-2">
                     <Label>Ответственный пользователь</Label>
-                    <ProjectUsers :project-users="props.projectUsers" v-model="form.responsible_id" />
+                    <ProjectUsers :auth-user="$page.props.auth.user" :project-users="props.projectUsers" v-model="form.responsible_id" />
                 </div>
                 <Button type="submit"
                     class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Создать</Button>
