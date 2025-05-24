@@ -40,7 +40,7 @@ const filteredTasks = computed(() => {
                 <TableHead class="w-[150px]">
                     Название
                 </TableHead>
-                <TableHead>Статус</TableHead>
+                <TableHead class="w-[250px]">Статус</TableHead>
                 <TableHead>Ответственный</TableHead>
                 <TableHead class="text-right"></TableHead>
             </TableRow>

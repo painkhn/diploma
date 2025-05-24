@@ -83,6 +83,20 @@ class TaskController extends Controller
         // ]);
     }
 
+    public function cancel(UpdateTaskRequest $request, Task $task)
+    {
+        $task->update([
+            'status' => 'canceled'
+        ]);
+    }
+
+    public function returnBack(UpdateTaskRequest $request, Task $task)
+    {
+        $task->update([
+            'status' => 'pending'
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

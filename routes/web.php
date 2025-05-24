@@ -29,9 +29,10 @@ Route::middleware('auth')->group(function () {
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::controller(ProjectController::class)->group(function() {
-        Route::get('/project/{id}', 'index')->name('project.index');
+        Route::get('/project/page/{id}', 'index')->name('project.index');
         Route::patch('/project/{project}/update', 'update')->name('project.update');
         Route::post('/project/create', 'store')->name('project.store');
+        Route::delete('/project/{project}/delete', 'destroy')->name('project.delete');
     });
     Route::controller(ProjectInvitationController::class)->group(function() {
         Route::post('/project/{project}/invitations', 'store')->name('project.invitation.store');
@@ -49,6 +50,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(TaskController::class)->group(function() {
         Route::patch('/task/{task}/update', 'update')->name('task.update');
+        Route::patch('/task/{task}/cancel', 'cancel')->name('task.cancel');
+        Route::patch('/task/{task}/returnBack', 'returnBack')->name('task.returnBack');
     });
 });
 

@@ -16,6 +16,7 @@ import Textarea from '../ui/textarea/Textarea.vue';
 import { Project } from '@/types';
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const props = defineProps<{
     project: Project
@@ -38,6 +39,10 @@ const submit = () => {
             console.log('error')
         }
     })
+}
+
+const destroy = async () => {
+    const response = await axios.delete(route('project.delete', {project: props.project.id}))
 }
 </script>
 
@@ -74,6 +79,12 @@ const submit = () => {
                 </div>
                 <Button type="submit" variant="default"
                     class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Сохранить</Button>
+            </form>
+            <span class="text-center">или</span>
+            <form @submit.prevent="destroy">
+                <Button
+                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80"
+                    type="submit">Удалить проект</Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->
