@@ -105,15 +105,15 @@ const returnBack = () => {
                 <Button type="submit"
                     class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Создать</Button>
             </form>
-            <span class="text-center">или</span>
-            <form @submit.prevent="cancel" v-if="props.task.status !== 'canceled'">
+            <span class="text-center" v-if="props.task.status === 'pending' || 'calceled'">или</span>
+            <form @submit.prevent="cancel" v-if="props.task.status === 'pending'">
                 <Button type="submit"
-                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Отменить
+                    class="w-full transition-all dark:bg-red-400 bg-black dark:text-black text-white hover:dark:bg-red-300 hover:bg-black/80">Отменить
                     задачу</Button>
             </form>
             <form @submit.prevent="returnBack" v-if="props.task.status === 'canceled'">
                 <Button type="submit"
-                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Вернуть
+                    class="w-full transition-all dark:bg-blue-400 bg-black dark:text-black text-white hover:dark:bg-blue-300 hover:bg-black/80">Вернуть
                     задачу</Button>
             </form>
             <DialogFooter>

@@ -48,6 +48,7 @@ export interface Task {
     responsible: User;
     reports: Report[] | undefined;
     created_at: Date;
+    user: User;
 }
 
 export interface Report {

@@ -18,7 +18,7 @@ const props = defineProps<{
 
 const form = useForm(
     {
-        // 
+        //
     }
 )
 
@@ -85,13 +85,13 @@ onMounted(() => {
                     <li>
                         <p>{{ props.user?.email }}</p>
                     </li>
-                    <li>
+                    <li v-if="props.user.id === $page.props.auth.user.id">
                         <CreateModal>
                             Создать проект
                         </CreateModal>
                     </li>
                 </ul>
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit" v-if="props.user.id === $page.props.auth.user.id">
                     <Button type="submit" variant="outline" class="transition-all hover:dark:bg-white/10">Выход</Button>
                 </form>
             </div>

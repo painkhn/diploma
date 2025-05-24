@@ -21,6 +21,7 @@ const props = defineProps<{
 }>()
 
 const searchQuery = ref('');
+// const selectedUser = ref();
 
 const filteredTasks = computed(() => {
     if (!props.tasks) return [];
@@ -28,7 +29,16 @@ const filteredTasks = computed(() => {
     return props.tasks.filter(task =>
         task.title.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
+    
 });
+
+// const filteredByUser = computed(() => {
+//     if (!props.tasks) return [];
+
+//     return props.tasks.filter(task =>
+//         task.user.id === selectedUser.value
+//     )
+// })
 </script>
 
 <template>
