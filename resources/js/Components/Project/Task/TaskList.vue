@@ -9,10 +9,11 @@ import {
     TableRow,
 } from '@/Components/ui/table'
 import { Project, ProjectUser, Task } from '@/types';
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import ActionDropdown from './ActionDropdown.vue';
 import TaskSearch from '@/Components/Project/Search/TaskSearch.vue';
 import TaskStatus from './TaskStatus.vue';
+import TaskStatusSelect from '../Search/TaskStatusSelect.vue';
 
 const props = defineProps<{
     tasks: Task[] | undefined
@@ -21,29 +22,31 @@ const props = defineProps<{
 }>()
 
 const searchQuery = ref('');
-// const selectedUser = ref();
+const selectedStatus = ref<string | null>(null);
+
+// Для отладки можно добавить watch
+watch(selectedStatus, (newVal) => {
+    console.log('Selected status changed:', newVal);
+});
 
 const filteredTasks = computed(() => {
     if (!props.tasks) return [];
 
-    return props.tasks.filter(task =>
-        task.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-    
+    return props.tasks.filter(task => {
+        const matchesSearch = task.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+        const matchesStatus = selectedStatus.value ? task.status === selectedStatus.value : true;
+
+        return matchesSearch && matchesStatus;
+    });
 });
-
-// const filteredByUser = computed(() => {
-//     if (!props.tasks) return [];
-
-//     return props.tasks.filter(task =>
-//         task.user.id === selectedUser.value
-//     )
-// })
 </script>
 
 <template>
     <h2 class="text-2xl font-semibold mb-4">Список задач</h2>
-    <TaskSearch v-model="searchQuery" />
+    <div class="flex gap-2">
+        <TaskSearch v-model="searchQuery" />
+        <TaskStatusSelect v-model="selectedStatus" />
+    </div>
     <Table>
         <TableCaption></TableCaption>
         <TableHeader>
