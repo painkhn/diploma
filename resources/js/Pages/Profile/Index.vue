@@ -104,7 +104,7 @@ onMounted(() => {
                         {{ currentDateTime }}
                     </p>
                 </div>
-                <ul class="space-y-4">
+                <ul class="space-y-4" v-if="(props.projects as Project[])?.length > 0">
                     <li v-for="(item, index) in props.projects" :key="index">
                         <Link :href="route('project.index', { id: item.id })">
                         <div
@@ -122,6 +122,9 @@ onMounted(() => {
                         </Link>
                     </li>
                 </ul>
+                <p class="text-sm font-semibold opacity-80" v-else>
+                    У вас нет доступных задач
+                </p>
             </div>
             <div class="max-w-[300px] w-full p-5 space-y-8">
                 <h2 class="text-2xl font-semibold text-center">
