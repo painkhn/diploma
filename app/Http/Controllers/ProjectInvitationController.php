@@ -12,8 +12,6 @@ class ProjectInvitationController extends Controller
 {
     public function store(Request $request, Project $project)
     {
-        // \Log::debug('Store invitation request:', $request->all()); // Логируем входные данные
-        
         $validated = $request->validate([
             'recipient_id' => 'required|exists:users,id',
         ]);

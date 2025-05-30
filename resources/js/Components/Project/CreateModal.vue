@@ -50,23 +50,36 @@ const submit = () => {
                     Заполните форму, чтобы создать проект.
                 </DialogDescription>
             </DialogHeader>
+
             <form @submit.prevent="submit" class="space-y-4">
                 <div class="space-y-2">
                     <Label>Название проекта</Label>
                     <Input v-model="form.title" type="text" />
+                    <span v-if="form.errors.title" class="text-sm text-red-500 dark:text-red-400">
+                        {{ form.errors.title }}
+                    </span>
                 </div>
                 <div class="space-y-2">
                     <Label>Описание проекта</Label>
                     <Textarea v-model="form.description" type="text" />
+                    <span v-if="form.errors.description" class="text-sm text-red-500 dark:text-red-400">
+                        {{ form.errors.description }}
+                    </span>
                 </div>
                 <div class="gap-x-4 flex items-center">
                     <div class="space-y-2">
                         <Label>Дата начала проекта проекта</Label>
                         <DatePicker v-model="form.start_date" type="text" />
+                        <span v-if="form.errors.start_date" class="text-sm text-red-500 dark:text-red-400">
+                            {{ form.errors.start_date }}
+                        </span>
                     </div>
                     <div class="space-y-2">
                         <Label>Дата окончания проекта проекта</Label>
                         <DatePicker v-model="form.end_date" type="text" />
+                        <span v-if="form.errors.end_date" class="text-sm text-red-500 dark:text-red-400">
+                            {{ form.errors.end_date }}
+                        </span>
                     </div>
                 </div>
                 <Button type="submit" variant="default"

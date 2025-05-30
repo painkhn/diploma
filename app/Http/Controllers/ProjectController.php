@@ -19,7 +19,6 @@ class ProjectController extends Controller
     {
         $users = User::all();
         $project = Project::with(['projectUser.user'])->with('tasks.responsible')->with('tasks.reports.user')->with('user')->where('id', $id)->first();
-        // dd($project->tasks);
         return Inertia::render('Project/Index', [
             'project' => $project,
             'users' => $users,
@@ -40,20 +39,25 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $user_id = Auth::id();
-
-        // $project = Project::create($validatedData);
-        $project = Project::create([
-            'user_id' => $user_id,
-            'title' => $request->title,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-        ]);
-
-        // dd($project);
-
-        return redirect()->route('home')->with('success', 'Проект успешно создан.');
+        try {
+            $user_id = Auth::id();
+    
+            $project = Project::create([
+                'user_id' => $user_id,
+                'title' => $request->validated('title'),
+                'description' => $request->validated('description'),
+                'start_date' => $request->validated('start_date'),
+                'end_date' => $request->validated('end_date'),
+            ]);
+    
+            return redirect()->route('home')->with('success', 'Проект успешно создан.');
+    
+        } catch (\Exception $e) {
+            // Логируем ошибку (опционально)
+            \Log::error('Ошибка при создании проекта: ' . $e->getMessage());
+            
+            return back()->withInput()->with('error', 'Произошла ошибка при создании проекта.');
+        }
     }
 
     /**

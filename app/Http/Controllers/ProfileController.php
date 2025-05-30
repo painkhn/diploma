@@ -44,13 +44,9 @@ class ProfileController extends Controller
 
     public function updateAvatar(Request $request)
     {
-        // dd($request->all());
-
         $validated = $request->validate([
             'avatar_change' => 'required|image|mimes:jpg,png,jpeg,webp|max:2048'
         ]);
-
-        // dd($request->all());
         
         $user = Auth::user();
         $avatarPath = public_path($user->avatar);
