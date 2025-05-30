@@ -34,10 +34,10 @@ const updateValue = (value: any) => {
                 <SelectItem :value="null">
                     Без сортировки
                 </SelectItem>
-                <SelectItem value="fast">
+                <SelectItem value="asc">
                     Сначала срочные
                 </SelectItem>
-                <SelectItem value="lazy">
+                <SelectItem value="desc">
                     Сначала продолжительные
                 </SelectItem>
             </SelectGroup>
