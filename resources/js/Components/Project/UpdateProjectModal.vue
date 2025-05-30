@@ -15,7 +15,7 @@ import Button from '../ui/button/Button.vue';
 import Textarea from '../ui/textarea/Textarea.vue';
 import { Project } from '@/types';
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
 
 const props = defineProps<{
@@ -29,11 +29,14 @@ const form = useForm({
     end_date: props.project.end_date
 });
 
+const deleteForm = useForm({})
+
 const submit = () => {
     form.patch(route('project.update', { project: props.project.id }), {
         onSuccess: () => {
             form.reset()
             console.log('успешно')
+            window.location.href = route('home');
         },
         onError: () => {
             console.log('error')
@@ -41,9 +44,21 @@ const submit = () => {
     })
 }
 
-const destroy = async () => {
-    const response = await axios.delete(route('project.delete', {project: props.project.id}))
-}
+const destroy = () => {
+    deleteForm.delete(route('project.delete', { project: props.project.id }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            // Редирект через Inertia (без полной перезагрузки страницы)
+            router.visit(route('home'));
+
+            // Или если нужно полное обновление страницы:
+            // window.location.href = route('home');
+        },
+        onError: () => {
+            console.log('Ошибка при удалении проекта');
+        }
+    });
+};
 </script>
 
 <template>
