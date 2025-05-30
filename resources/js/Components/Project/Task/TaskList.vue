@@ -14,6 +14,7 @@ import ActionDropdown from './ActionDropdown.vue';
 import TaskSearch from '@/Components/Project/Search/TaskSearch.vue';
 import TaskStatus from './TaskStatus.vue';
 import TaskStatusSelect from '../Search/TaskStatusSelect.vue';
+import TaskEndDateSelect from '../Search/TaskEndDateSelect.vue';
 
 const props = defineProps<{
     tasks: Task[] | undefined
@@ -23,6 +24,7 @@ const props = defineProps<{
 
 const searchQuery = ref('');
 const selectedStatus = ref<string | null>(null);
+const sortByDate = ref<string | null>(null);
 
 // Для отладки можно добавить watch
 watch(selectedStatus, (newVal) => {
@@ -32,13 +34,32 @@ watch(selectedStatus, (newVal) => {
 const filteredTasks = computed(() => {
     if (!props.tasks) return [];
 
-    return props.tasks.filter(task => {
+    let tasks = [...props.tasks];
+
+    // Фильтрация по поиску
+    tasks = tasks.filter(task => {
         const matchesSearch = task.title.toLowerCase().includes(searchQuery.value.toLowerCase());
         const matchesStatus = selectedStatus.value ? task.status === selectedStatus.value : true;
-
         return matchesSearch && matchesStatus;
     });
+
+    // Сортировка по дате
+    if (sortByDate.value) {
+        tasks.sort((a, b) => {
+            const dateA = a.end_date ? new Date(a.end_date).getTime() : 0;
+            const dateB = b.end_date ? new Date(b.end_date).getTime() : 0;
+
+            if (sortByDate.value === 'asc') {
+                return dateA - dateB; // Сначала те, у которых дата раньше
+            } else {
+                return dateB - dateA; // Сначала те, у которых дата позже
+            }
+        });
+    }
+
+    return tasks;
 });
+
 </script>
 
 <template>
@@ -46,6 +67,7 @@ const filteredTasks = computed(() => {
     <div class="flex gap-2">
         <TaskSearch v-model="searchQuery" />
         <TaskStatusSelect v-model="selectedStatus" />
+        <TaskEndDateSelect v-model="sortByDate" />
     </div>
     <Table>
         <TableCaption></TableCaption>
