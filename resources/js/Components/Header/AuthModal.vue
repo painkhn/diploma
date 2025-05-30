@@ -45,10 +45,16 @@ const githubAuthUrl = route('github.login');
                 <div class="space-y-2">
                     <Label>Электронная почта</Label>
                     <Input v-model="form.email" type="email" />
+                    <span v-if="form.errors.email" class="text-sm text-red-500 dark:text-red-400">
+                        {{ form.errors.email }}
+                    </span>
                 </div>
                 <div class="space-y-2">
                     <Label>Пароль</Label>
                     <Input v-model="form.password" type="password" />
+                    <span v-if="form.errors.password" class="text-sm text-red-500 dark:text-red-400">
+                        {{ form.errors.password }}
+                    </span>
                 </div>
                 <Button type="submit" variant="default"
                     class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Войти</Button>
