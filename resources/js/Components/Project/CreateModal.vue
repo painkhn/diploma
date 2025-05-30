@@ -70,17 +70,19 @@ const submit = () => {
                     <div class="space-y-2">
                         <Label>Дата начала проекта проекта</Label>
                         <DatePicker v-model="form.start_date" type="text" />
-                        <span v-if="form.errors.start_date" class="text-sm text-red-500 dark:text-red-400">
-                            {{ form.errors.start_date }}
-                        </span>
                     </div>
                     <div class="space-y-2">
                         <Label>Дата окончания проекта проекта</Label>
                         <DatePicker v-model="form.end_date" type="text" />
-                        <span v-if="form.errors.end_date" class="text-sm text-red-500 dark:text-red-400">
-                            {{ form.errors.end_date }}
-                        </span>
                     </div>
+                </div>
+                <div class="flex flex-col">
+                    <span v-if="form.errors.start_date" class="text-sm text-red-500 dark:text-red-400">
+                        {{ form.errors.start_date }}
+                    </span>
+                    <span v-if="form.errors.end_date" class="text-sm text-red-500 dark:text-red-400">
+                        {{ form.errors.end_date }}
+                    </span>
                 </div>
                 <Button type="submit" variant="default"
                     class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Создать</Button>
