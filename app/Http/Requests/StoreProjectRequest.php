@@ -29,7 +29,7 @@ class StoreProjectRequest extends FormRequest
                 'required',
                 'date',
                 'after_or_equal:start_date'
-            ],
+            ]
         ];
     }
 

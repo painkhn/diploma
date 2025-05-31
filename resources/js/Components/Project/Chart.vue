@@ -14,21 +14,8 @@ const props = defineProps<{
 const chartData = computed<ChartDataItem[]>(() => {
     if (!props.tasks || !props.project) return [];
 
-    // Явно указываем тип для владельца проекта
-    const projectOwner: ProjectUser = {
-        id: 0, // временный ID, так как владелец может не быть в projectUsers
-        project_id: props.project.id,
-        user_id: props.project.user_id,
-        user: {
-            ...props.project.user,
-            is_owner: true
-        },
-        is_owner: true
-    };
-
     // Создаем массив всех пользователей
     const allUsers: (ProjectUser)[] = [
-        projectOwner,
         ...(props.projectUsers || [])
     ];
 
@@ -39,13 +26,12 @@ const chartData = computed<ChartDataItem[]>(() => {
             ).length;
 
             return {
-                name: user.is_owner ? `${user.user.name} (Владелец)` : user.user.name,
+                name: user.user.name,
                 total: taskCount,
                 user: {
                     id: user.user.id,
                     name: user.user.name,
                     email: user.user.email,
-                    is_owner: user.is_owner || false
                 }
             };
         })

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { ProjectUser } from '@/types';
+import { Project, ProjectUser } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Image, Trash2 } from 'lucide-vue-next';
+import { onMounted } from 'vue';
 
 const props = defineProps<{
     projectUsers: ProjectUser[] | undefined
+    project: Project
 }>()
 
 const deleteUser = async (userId: number) => {
@@ -17,6 +19,10 @@ const deleteUser = async (userId: number) => {
         console.error('Ошибка при удалении пользователя:', error);
     }
 }
+
+onMounted(() => {
+    console.log(props.projectUsers);
+})
 </script>
 
 <template>
@@ -36,7 +42,7 @@ const deleteUser = async (userId: number) => {
                 </span>
                 </Link>
                 <div class="justify-self-end">
-                    <button @click="deleteUser(item.user.id)">
+                    <button @click="deleteUser(item.user.id)" v-if="props.project.id === $page.props.auth.user.id">
                         <Trash2 class="text-red-400 transition-all hover:text-red-300" />
                     </button>
                 </div>

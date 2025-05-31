@@ -15,6 +15,7 @@ import TaskSearch from '@/Components/Project/Search/TaskSearch.vue';
 import TaskStatus from './TaskStatus.vue';
 import TaskStatusSelect from '../Search/TaskStatusSelect.vue';
 import TaskEndDateSelect from '../Search/TaskEndDateSelect.vue';
+import TaskProgress from './TaskProgress.vue';
 
 const props = defineProps<{
     tasks: Task[] | undefined
@@ -68,6 +69,9 @@ const filteredTasks = computed(() => {
         <TaskSearch v-model="searchQuery" />
         <TaskStatusSelect v-model="selectedStatus" />
         <TaskEndDateSelect v-model="sortByDate" />
+    </div>
+    <div>
+        <TaskProgress :tasks="props.tasks" />
     </div>
     <Table>
         <TableCaption></TableCaption>

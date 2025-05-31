@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\ProjectUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -40,7 +41,8 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         try {
-            $user_id = Auth::id();
+            $user = Auth::user();
+            $user_id = $user->id;
     
             $project = Project::create([
                 'user_id' => $user_id,
@@ -49,10 +51,15 @@ class ProjectController extends Controller
                 'start_date' => $request->validated('start_date'),
                 'end_date' => $request->validated('end_date'),
             ]);
+            $project_user = ProjectUser::create([
+                'project_id' => $project->id,
+                'user_id' => $user_id,
+                'role' => 'admin'
+            ]);
     
             return redirect()->route('home')->with('success', 'Проект успешно создан.');
     
-        } catch (\Exception $e) {
+        }  catch (\Exception $e) {
             // Логируем ошибку (опционально)
             \Log::error('Ошибка при создании проекта: ' . $e->getMessage());
             

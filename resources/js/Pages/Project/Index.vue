@@ -11,7 +11,6 @@ import CreateTaskModal from '@/Components/Project/Task/CreateTaskModal.vue'
 import TaskList from '@/Components/Project/Task/TaskList.vue';
 import Chart from '@/Components/Project/Chart.vue';
 
-
 const props = defineProps<{
     project: Project
     users: User[]
@@ -80,8 +79,8 @@ const props = defineProps<{
                     <Chart :tasks="props.project.tasks" :project-users="props.projectUsers" :project="props.project" />
                 </div>
                 <!-- <div v-else class="col-span-2"></div> -->
-                <div
-                    class="w-1/3 max-[1400px]:max-w-[300px] max-[1400px]:w-full max-[840px]:w-1/2 max-[1400px]:mx-auto max-[560px]:w-full space-y-4" :class="$page.props.auth.user.id !== props.project.user_id ? 'ml-auto' : ''">
+                <div class="w-1/3 max-[1400px]:max-w-[300px] max-[1400px]:w-full max-[840px]:w-1/2 max-[1400px]:mx-auto max-[560px]:w-full space-y-4"
+                    :class="$page.props.auth.user.id !== props.project.user_id ? 'ml-auto' : ''">
                     <h2 class="text-2xl font-semibold text-center">
                         Пользователи проекта
                     </h2>
@@ -89,7 +88,7 @@ const props = defineProps<{
                         <UserRoundPlus />
                         Пригласить пользователя
                     </AddUserModal>
-                    <ProjectUsersList :project-users="props.projectUsers" />
+                    <ProjectUsersList :project-users="props.projectUsers" :project="props.project" />
                 </div>
             </div>
         </div>

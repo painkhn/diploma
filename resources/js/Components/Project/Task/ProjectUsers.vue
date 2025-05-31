@@ -14,38 +14,13 @@ const emit = defineEmits(['update:modelValue'])
 
 const selectedUser = ref()
 
-// Создаем computed свойство, объединяющее аутентифицированного пользователя и пользователей проекта
-const allUsers = computed(() => {
-    return [
-        {
-            user_id: props.authUser.id,
-            user: {
-                ...props.authUser,
-                name: `${props.authUser.name} (Я)`, // Добавляем пометку
-                is_owner: true // Флаг владельца
-            }
-        },
-        ...props.projectUsers
-    ]
-})
-
-// Watch for changes in selectedUser and emit the user_id
 watch(selectedUser, (newValue) => {
-    if (newValue) {
-        emit('update:modelValue', newValue.user_id)
-    } else {
-        emit('update:modelValue', null)
-    }
+    emit('update:modelValue', newValue.user_id)
+    // if (newValue) {
+    // } else {
+    //     emit('update:modelValue', null)
+    // }
 })
-
-// Инициализируем выбранного пользователя, если modelValue пришел снаружи
-watch(() => props.modelValue, (newValue) => {
-    if (newValue) {
-        selectedUser.value = allUsers.value.find(user => user.user_id === newValue)
-    } else {
-        selectedUser.value = null
-    }
-}, { immediate: true })
 </script>
 
 <template>
@@ -66,10 +41,11 @@ watch(() => props.modelValue, (newValue) => {
             </ComboboxEmpty>
 
             <ComboboxGroup>
-                <ComboboxItem v-for="(item, index) in allUsers" :key="index" :value="item">
-                    <div class="flex items-center gap-2">
-                        <Crown v-if="item.user.is_owner" class="size-4 text-yellow-500" />
+                <ComboboxItem v-for="(item, index) in projectUsers" :key="index" :value="item">
+                    <div class="flex items-center gap-1">
+                        <Crown v-if="item.user.id === $page.props.auth.user.id" class="size-4 text-yellow-500" />
                         {{ item.user.name }}
+                        <span v-if="item.user.id === $page.props.auth.user.id">(Я)</span>
                     </div>
 
                     <ComboboxItemIndicator>

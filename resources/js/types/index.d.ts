@@ -5,6 +5,7 @@ export interface User {
     email: string;
     email_verified_at?: string;
     is_owner?: boolean;
+    role?: "admin" | "user" | "moderator" | "inspector";
 }
 
 export interface Project {

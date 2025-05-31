@@ -52,7 +52,8 @@ class ProjectInvitationController extends Controller
 
         $project_user = ProjectUser::create([
             'project_id' => $invitation->project->id,
-            'user_id' => $invitation->recipient->id
+            'user_id' => $invitation->recipient->id,
+            'role' => 'user'
         ]);
         
         // return response()->json(['message' => 'Приглашение принято']);

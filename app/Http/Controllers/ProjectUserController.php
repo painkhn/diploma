@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Http\Requests\StoreProjectUserRequest;
 use App\Http\Requests\UpdateProjectUserRequest;
@@ -22,6 +23,14 @@ class ProjectUserController extends Controller
     public function create()
     {
         //
+    }
+
+    public function makeAdminProjectUser(StoreProjectUserRequest $request, $id)
+    {
+        $project = Project::where('id', $id)->first();
+        $project_user = ProjectUser::create([
+            
+        ]);
     }
 
     /**
