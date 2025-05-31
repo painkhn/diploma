@@ -42,7 +42,8 @@ onMounted(() => {
                 </span>
                 </Link>
                 <div class="justify-self-end">
-                    <button @click="deleteUser(item.user.id)" v-if="props.project.id === $page.props.auth.user.id">
+                    <button @click="deleteUser(item.user.id)"
+                        v-if="props.project.id === $page.props.auth.user.id && props.project.user_id !== item.user_id">
                         <Trash2 class="text-red-400 transition-all hover:text-red-300" />
                     </button>
                 </div>

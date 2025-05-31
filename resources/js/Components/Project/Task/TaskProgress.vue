@@ -7,7 +7,6 @@ const props = defineProps<{
     tasks: Task[] | undefined
 }>()
 
-// Вычисляем процент выполненных задач
 const progressValue = computed(() => {
     if (!props.tasks || props.tasks.length === 0) return 0;
 

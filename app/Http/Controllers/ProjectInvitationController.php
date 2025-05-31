@@ -26,7 +26,8 @@ class ProjectInvitationController extends Controller
                 'project_id' => $project->id,
                 'sender_id' => auth()->id(),
                 'recipient_id' => $validated['recipient_id'],
-                'status' => 'pending'
+                'status' => 'pending',
+                'role' => $request->role
             ]);
 
             // \Log::debug('Invitation created:', $invitation->toArray()); // Логируем созданное приглашение
@@ -48,12 +49,14 @@ class ProjectInvitationController extends Controller
             abort(403);
         }
 
+        dd($invitation);
+
         $invitation->update(['status' => 'accepted']);
 
         $project_user = ProjectUser::create([
             'project_id' => $invitation->project->id,
             'user_id' => $invitation->recipient->id,
-            'role' => 'user'
+            'role' => $invitation->role
         ]);
         
         // return response()->json(['message' => 'Приглашение принято']);

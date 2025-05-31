@@ -66,4 +66,30 @@ class User extends Authenticatable
     {
         return $this->hasMany(Report::class);
     }
+
+    // Запросы, которые пользователь отправил
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(Friend::class, 'sender_id');
+    }
+
+    // Запросы, которые пользователь получил
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(Friend::class, 'receiver_id');
+    }
+
+    // Все принятые друзья (как отправитель и как получатель)
+    public function friends()
+    {
+        return Friend::where(function($query) {
+                $query->where('sender_id', $this->id)
+                    ->orWhere('receiver_id', $this->id);
+            })
+            ->where('status', 'accepted')
+            ->get()
+            ->map(function($friend) {
+                return $friend->sender_id == $this->id ? $friend->receiver : $friend->sender;
+            });
+    }
 }

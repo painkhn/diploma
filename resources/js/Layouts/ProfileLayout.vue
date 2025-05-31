@@ -9,13 +9,14 @@ import UpdateAvatar from '@/Components/Profile/UpdateAvatar.vue';
 import { Friend, Invitation, Project, User } from '@/types';
 import CreateModal from '@/Components/Project/CreateModal.vue';
 import NotificationModal from '@/Components/Profile/NotificationModal.vue';
-import ProfileLayout from '@/Layouts/ProfileLayout.vue';
+import ModalData from '@/Components/Profile/ProjectInvitations/ModalData.vue';
+import FriendModalData from '@/Components/Profile/FriendInvitations/FriendModalData.vue';
 
 const props = defineProps<{
     user: User;
-    projects: Project[] | null;
     invitations: Invitation[] | null;
     friendInvitations: Friend[] | undefined;
+    // friends: any;
 }>()
 
 const form = useForm(
@@ -55,6 +56,8 @@ onMounted(() => {
     updateDateTime();
     updateTime();
     intervalId = setInterval(updateTime, 1000);
+    console.log(props.friendInvitations);
+
     // console.log(props.invitations);
 })
 </script>
@@ -63,7 +66,7 @@ onMounted(() => {
 
     <Head :title="props.user.name" />
 
-    <!-- <MainLayout>
+    <MainLayout>
         <section class="flex justify-between">
             <div class="max-w-[300px] w-full p-5 text-center space-y-8 items-start">
                 <UpdateAvatar v-if="$page.props.auth.user.id === props.user.id">
@@ -92,6 +95,11 @@ onMounted(() => {
                             Создать проект
                         </CreateModal>
                     </li>
+                    <li v-if="props.user.id === $page.props.auth.user.id">
+                        <Link :href="route('friend.index', { id: props.user.id })">
+                        Друзья
+                        </Link>
+                    </li>
                 </ul>
                 <form @submit.prevent="submit" v-if="props.user.id === $page.props.auth.user.id">
                     <Button type="submit" variant="outline" class="transition-all hover:dark:bg-white/10">Выход</Button>
@@ -106,7 +114,7 @@ onMounted(() => {
                         {{ currentDateTime }}
                     </p>
                 </div>
-                <ul class="space-y-4" v-if="(props.projects as Project[])?.length > 0">
+                <!-- <ul class="space-y-4" v-if="(props.projects as Project[])?.length > 0">
                     <li v-for="(item, index) in props.projects" :key="index">
                         <Link :href="route('project.index', { id: item.id })">
                         <div
@@ -126,7 +134,8 @@ onMounted(() => {
                 </ul>
                 <p class="text-sm font-semibold opacity-80" v-else>
                     У вас нет доступных задач
-                </p>
+                </p> -->
+                <slot />
             </div>
             <div class="max-w-[300px] w-full p-5 space-y-8">
                 <h2 class="text-2xl font-semibold text-center">
@@ -134,14 +143,15 @@ onMounted(() => {
                 </h2>
                 <ul class="space-y-4" v-if="(props.invitations as Invitation[])?.length > 0">
                     <li v-for="(item, index) in props.invitations" :key="index">
-                        <NotificationModal :notification="item">
-                            <div
-                                class="dark:bg-white/5 transition-all hover:dark:bg-white/10 rounded-md p-4 flex items-center gap-x-4">
-                                <Bell />
-                                <h3 class="font-semibold line-clamp-1">
-                                    Приглашение в проект
-                                </h3>
-                            </div>
+                        <NotificationModal :notification="item" :title="'проект'">
+                            <ModalData :notification="item" />
+                        </NotificationModal>
+                    </li>
+                </ul>
+                <ul class="space-y-4" v-if="(props.friendInvitations as Friend[])?.length > 0">
+                    <li v-for="(item, index) in props.friendInvitations" :key="index">
+                        <NotificationModal :notification="item" :title="'друзья'">
+                            <FriendModalData :notification="item" />
                         </NotificationModal>
                     </li>
                 </ul>
@@ -149,28 +159,5 @@ onMounted(() => {
             </div>
         </section>
 
-    </MainLayout> -->
-    <ProfileLayout :friendInvitations="props.friendInvitations" :user="props.user" :invitations="props.invitations">
-        <ul class="space-y-4" v-if="(props.projects as Project[])?.length > 0">
-            <li v-for="(item, index) in props.projects" :key="index">
-                <Link :href="route('project.index', { id: item.id })">
-                <div
-                    class="w-full py-2 border-l border-black/80 dark:border-white px-8 transition-all hover:border-l-4 hover:dark:bg-white/5">
-                    <div class="flex items-center gap-x-2">
-                        <h2 class="text-2xl font-semibold">{{ item.title }}</h2>
-                        <span v-if="item.user_id === props.user.id"
-                            class="opacity-80 mt-1 font-semibold">(Администратор)</span>
-                        <span v-else class="opacity-80 mt-1 font-semibold">(Участник)</span>
-                    </div>
-                    <p class="line-clamp-1 opacity-80">
-                        {{ item.description }}
-                    </p>
-                </div>
-                </Link>
-            </li>
-        </ul>
-        <p class="text-sm font-semibold opacity-80" v-else>
-            У вас нет доступных задач
-        </p>
-    </ProfileLayout>
+    </MainLayout>
 </template>

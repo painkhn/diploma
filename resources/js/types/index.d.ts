@@ -60,6 +60,15 @@ export interface Report {
     user: User;
 }
 
+export interface Friend {
+    id: number;
+    sender_id: number;
+    sender: User;
+    receiver_id: number;
+    receiver: User;
+    status: "pending" | "accepted" | "rejected";
+}
+
 export interface ChartDataItem {
     name: string;
     total: number;

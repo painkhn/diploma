@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GithubAuthController;
+use App\Http\Controllers\FriendController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectInvitationController;
@@ -52,6 +53,11 @@ Route::middleware('auth')->group(function () {
         Route::patch('/task/{task}/update', 'update')->name('task.update');
         Route::patch('/task/{task}/cancel', 'cancel')->name('task.cancel');
         Route::patch('/task/{task}/returnBack', 'returnBack')->name('task.returnBack');
+    });
+    Route::controller(FriendController::class)->group(function() {
+        Route::get('/profile/{id}/friends', 'index')->name('friend.index');
+        Route::post('/friend/store', 'store')->name('friend.store');
+        Route::patch('/friend/invitation/{id}/accept', 'accept')->name('friend.accept');
     });
 });
 

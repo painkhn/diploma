@@ -14,7 +14,8 @@ class ProjectInvitation extends Model
         'sender_id',
         'recipient_id',
         'status',
-        'message'
+        'message',
+        'role'
     ];
 
     public function project()

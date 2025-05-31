@@ -13,7 +13,8 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('recipient_id');
-            $table->string('status')->default('pending'); // pending, accepted, rejected
+            $table->enum('role', ['admin', 'moderator', 'user', 'inspector']);
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->text('message')->nullable();
             $table->timestamps();
             

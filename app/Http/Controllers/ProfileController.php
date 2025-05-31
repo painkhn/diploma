@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\{ Project, User };
+use App\Models\Friend;
 use App\Models\ProjectInvitation;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,9 @@ class ProfileController extends Controller
         $invitations = ProjectInvitation::where('recipient_id', $id)
             ->where('status', 'pending')
             ->get();
+
+        $friend_invitations = Friend::with('sender', 'receiver')->where('receiver_id', $id)->where('status', 'pending')->get();
+        // dd($friend_invitations);
         
         $user = User::findOrFail($id);
         
@@ -38,7 +42,8 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Index', [
             'user' => $user,
             'projects' => $projects,
-            'invitations' => $invitations
+            'invitations' => $invitations,
+            'friendInvitations' => $friend_invitations
         ]);
     }
 
