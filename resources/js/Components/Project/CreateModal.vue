@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/Components/ui/dialog'
+} from '@/components/ui/dialog'
 import Label from '../ui/label/Label.vue';
 import Input from '../ui/input/Input.vue';
 import Textarea from '../ui/textarea/Textarea.vue';

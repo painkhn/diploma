@@ -3,7 +3,7 @@ import AddUserModal from '@/Components/Project/AddUserModal.vue';
 import ProjectUsersList from '@/Components/Project/ProjectUsersList.vue';
 import UpdateProjectModal from '@/Components/Project/UpdateProjectModal.vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Project, ProjectUser, Task, User } from '@/types';
+import { Friend, Project, ProjectUser, Task, User } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 import { UserRoundPlus } from 'lucide-vue-next';
 import { defineProps } from 'vue';
@@ -15,6 +15,7 @@ const props = defineProps<{
     project: Project
     users: User[]
     projectUsers: ProjectUser[] | undefined
+    friends: Friend[] | undefined
 }>()
 
 // onMounted(() => {
@@ -84,7 +85,7 @@ const props = defineProps<{
                     <h2 class="text-2xl font-semibold text-center">
                         Пользователи проекта
                     </h2>
-                    <AddUserModal :project="props.project" :users="props.users">
+                    <AddUserModal :friends="props.friends" :project="props.project" :users="props.users">
                         <UserRoundPlus />
                         Пригласить пользователя
                     </AddUserModal>

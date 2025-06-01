@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Friend;
 use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -19,10 +20,13 @@ class ProjectController extends Controller
     public function index($id)
     {
         $users = User::all();
+        $friends = Friend::with('receiver')->where('sender_id', Auth::id())->where('status', 'accepted')->get();
+        // dd($friends);
         $project = Project::with(['projectUser.user'])->with('tasks.responsible')->with('tasks.reports.user')->with('user')->where('id', $id)->first();
         return Inertia::render('Project/Index', [
             'project' => $project,
             'users' => $users,
+            'friends' => $friends,
             'projectUsers' => $project->projectUser
         ]);
     }

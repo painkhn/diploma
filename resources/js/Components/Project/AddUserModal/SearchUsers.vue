@@ -4,7 +4,7 @@ import { computed, defineProps, ref } from 'vue'
 import { User } from '@/types';
 import Input from '@/Components/ui/input/Input.vue';
 import Button from '@/Components/ui/button/Button.vue';
-import { router } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 
 const props = defineProps<{
     users: User[],
@@ -41,7 +41,7 @@ const handleInput = () => {
     showResults.value = searchQuery.value.length > 0
 }
 
-const submit = async () => {
+const submit123 = async () => {
     if (!selectedUser.value) return
 
     isLoading.value = true
@@ -61,8 +61,16 @@ const submit = async () => {
     } finally {
         isLoading.value = false
         console.log('успешно');
-        
+
     }
+}
+
+const form = useForm({
+    role: ''
+})
+
+const submit = () => {
+
 }
 </script>
 
