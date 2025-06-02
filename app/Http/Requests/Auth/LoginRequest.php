@@ -38,6 +38,7 @@ class LoginRequest extends FormRequest
             'email.required' => 'Email обязателен для заполнения',
             'email.email' => 'Введите корректный email адрес',
             'password.required' => 'Пароль обязателен для заполнения',
+            'auth.failed' => 'Неверный email или пароль'
         ];
     }
 
@@ -54,7 +55,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Неверный логин или пароль',
             ]);
         }
 

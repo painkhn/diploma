@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/invitations/{invitation}/reject', 'reject')->name('project.invitation.reject');
     });
     Route::controller(ProjectUserController::class)->group(function() {
-        Route::delete('/project/{id}/delete', 'destroy')->name('project.user.delete');
+        Route::delete('/project/{projectId}/user/{userId}', 'destroy')->name('project.user.delete');
     });
     Route::controller(TaskController::class)->group(function() {
         Route::post('/project/{id}/task/create', 'store')->name('task.store');

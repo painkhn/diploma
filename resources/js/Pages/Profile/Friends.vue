@@ -30,7 +30,12 @@ const props = defineProps<{
         </AddFriendModal>
         <ul>
             <li v-for="(friend, index) in props.friends" :key="index">
-                <Link :href="route('profile.show', { id: friend.sender.id })">
+                <Link :href="route('profile.show', { id: friend.receiver.id })"
+                    v-if="friend.sender_id === props.user.id">
+                {{ friend.receiver.name }}
+                </Link>
+                <Link :href="route('profile.show', { id: friend.sender.id })"
+                    v-if="friend.receiver_id === props.user.id">
                 {{ friend.sender.name }}
                 </Link>
             </li>

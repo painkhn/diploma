@@ -16,6 +16,7 @@ const props = defineProps<{
     users: User[]
     projectUsers: ProjectUser[] | undefined
     friends: Friend[] | undefined
+    currentProjectUser: ProjectUser
 }>()
 
 // onMounted(() => {
@@ -51,12 +52,13 @@ const props = defineProps<{
                             {{ new Date(props.project.end_date).toLocaleDateString() }}
                         </p>
                         <div class="gap-x-8 flex items-center">
-                            <div v-if="$page.props.auth.user.id === props.project.user.id">
+                            <!-- <div v-if="$page.props.auth.user.id === props.project.user.id">
                                 <UpdateProjectModal :project="props.project">
                                     Редактировать проект
                                 </UpdateProjectModal>
-                            </div>
-                            <div v-if="$page.props.auth.user.id === props.project.user.id">
+                            </div> -->
+                            <div
+                                v-if="props.currentProjectUser.role === 'admin' || props.currentProjectUser.role === 'moderator'">
                                 <CreateTaskModal :project="props.project" :project-users="props.projectUsers">
                                     Добавить новую задачу
                                 </CreateTaskModal>
@@ -67,7 +69,8 @@ const props = defineProps<{
                 <div class="space-y-4">
 
                     <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks"
-                        :project="props.project" :project-users="props.projectUsers" />
+                        :project="props.project" :project-users="props.projectUsers"
+                        :current-project-user="props.currentProjectUser" />
                     <div v-else>
                         Нет ни одной доступной задачи
                     </div>
@@ -76,7 +79,7 @@ const props = defineProps<{
             <div
                 class="flex w-1/2 max-[840px]:w-full max-[840px]:flex-row-reverse justify-between max-[1400px]:justify-end max-[1400px]:gap-y-8 max-[840px]:gap-y-0 max-[1400px]:flex-col-reverse max-[560px]:flex-col-reverse max-[560px]:gap-y-4">
                 <div class="w-2/3 max-[1400px]:w-full max-[1400px]:items-start max-[840px]:w-1/2 max-[560px]:w-full"
-                    v-if="$page.props.auth.user.id === props.project.user.id">
+                    v-if="props.currentProjectUser.role === 'admin' || props.currentProjectUser.role === 'moderator'">
                     <Chart :tasks="props.project.tasks" :project-users="props.projectUsers" :project="props.project" />
                 </div>
                 <!-- <div v-else class="col-span-2"></div> -->
@@ -85,11 +88,12 @@ const props = defineProps<{
                     <h2 class="text-2xl font-semibold text-center">
                         Пользователи проекта
                     </h2>
-                    <AddUserModal :friends="props.friends" :project="props.project" :users="props.users">
+                    <AddUserModal :friends="props.friends" :project="props.project" :users="props.users"
+                        v-if="currentProjectUser.role === 'admin'">
                         <UserRoundPlus />
                         Пригласить пользователя
                     </AddUserModal>
-                    <ProjectUsersList :project-users="props.projectUsers" :project="props.project" />
+                    <ProjectUsersList :project-users="props.projectUsers" :project="props.project" :current-project-user="props.currentProjectUser" />
                 </div>
             </div>
         </div>

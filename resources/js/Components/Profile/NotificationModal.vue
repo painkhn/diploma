@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/Components/ui/dialog'
+} from '@/components/ui/dialog'
 import { Friend, Invitation } from '@/types';
 import { Link, router } from '@inertiajs/vue3';
 import { Bell, Check, X } from 'lucide-vue-next';

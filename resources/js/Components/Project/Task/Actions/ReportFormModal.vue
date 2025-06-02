@@ -8,30 +8,63 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/Components/ui/dialog'
+} from '@/components/ui/dialog'
+import Input from '@/Components/ui/input/Input.vue';
 import Label from '@/Components/ui/label/Label.vue';
 import Textarea from '@/Components/ui/textarea/Textarea.vue';
 import { Task } from '@/types';
 import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const props = defineProps<{
     task: Task
 }>()
 
 const form = useForm({
-    content: ''
-})
+    message: '',
+    file: null as File | null
+});
+
+const fileInput = ref<HTMLInputElement | null>(null);
+
+const handleFileChange = (e: Event) => {
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files[0]) {
+        form.file = target.files[0];
+    }
+};
+
 
 const submit = () => {
-    form.post(route('report.store', { id: props.task.id }), {
+    // Создаем FormData для загрузки файла
+    const formData = new FormData();
+    formData.append('message', form.message);
+    if (form.file) {
+        formData.append('file', form.file);
+    }
+
+    // Используем transform для преобразования данных перед отправкой
+    form.transform((data) => {
+        const formData = new FormData();
+        formData.append('message', data.message);
+        if (data.file) {
+            formData.append('file', data.file);
+        }
+        return formData;
+    }).post(route('report.store', { id: props.task.id }), {
         onSuccess: () => {
             form.reset();
+            if (fileInput.value) {
+                fileInput.value.value = '';
+            }
         },
         onError: (errors) => {
-            console.log('ошибка при отправке отчёта');
+            console.log('Ошибка при отправке отчёта', errors);
         },
-    })
-}
+        forceFormData: true // Указываем, что отправляем FormData
+    });
+};
+
 </script>
 
 <template>
@@ -50,8 +83,13 @@ const submit = () => {
             </DialogHeader>
             <form @submit.prevent="submit" class="space-y-4">
                 <div class="space-y-2">
-                    <Label>Контент</Label>
-                    <Textarea v-model="form.content" placeholder="Введите текст вашего отчёта" />
+                    <Label>Сообщение</Label>
+                    <Textarea v-model="form.message" placeholder="Введите сообщение для вашего отчёта" />
+                </div>
+                <div class="space-y-2">
+                    <Label>Файлы отчёта (если файлов несколько, отправляйте ZIP-архив)</Label>
+                    <Input ref="fileInput" type="file" @change="handleFileChange"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png,.zip" />
                 </div>
                 <Button type="submit" variant="default"
                     class="w-full transition-all bg-white text-black hover:bg-gray-200">Отправить отчёт</Button>

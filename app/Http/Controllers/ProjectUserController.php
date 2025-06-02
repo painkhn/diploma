@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectInvitation;
 use App\Models\ProjectUser;
 use App\Http\Requests\StoreProjectUserRequest;
 use App\Http\Requests\UpdateProjectUserRequest;
@@ -68,10 +69,26 @@ class ProjectUserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($projectId, $userId)
     {
-        $user = ProjectUser::where('user_id', $id);
-        $user->delete();
-        // $projectUser->delete();
+        $isAdmin = ProjectUser::where('project_id', $projectId)
+                ->where('user_id', auth()->id())
+                ->where('role', 'admin')
+                ->exists();
+        if (!$isAdmin) {
+            return response()->json(['error' => 'Недостаточно прав'], 403);
+        }
+
+        $projectOwnerId = Project::findOrFail($projectId)->user_id;
+        if ($userId == $projectOwnerId) {
+            return response()->json(['error' => 'Нельзя удалить владельца проекта'], 403);
+        }
+
+        ProjectUser::where('project_id', $projectId)
+        ->where('user_id', $userId)
+        ->delete();
+        ProjectInvitation::where('recipient_id', $userId)->delete();
+        
+        // return response()->json(['success' => true]);
     }
 }

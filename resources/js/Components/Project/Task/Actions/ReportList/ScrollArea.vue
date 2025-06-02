@@ -8,7 +8,10 @@ import Textarea from '@/Components/ui/textarea/Textarea.vue';
 import { Report, Task } from '@/types';
 import { useForm } from '@inertiajs/vue3';
 import { Check, X } from 'lucide-vue-next';
-import { utils, writeFile } from 'xlsx';
+import { utils, write } from 'xlsx';
+
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 const tags = Array.from({ length: 50 }).map(
     (_, i, a) => `v1.2.0-beta.${a.length - i}`,
@@ -53,43 +56,49 @@ const reject = () => {
     });
 }
 
-const downloadReport = (reportContent: string, reportUser: string) => {
-    const workbook = utils.book_new();
+const downloadFullReport = async (report: Report) => {
+    const zip = new JSZip();
 
-    // Подготавливаем данные с заголовками
+    // 1. Создаем Excel файл
+    const workbook = utils.book_new();
     const data = [
         ["Поле", "Значение"],
-        ["Ответственный", reportUser],
+        ["Ответственный", report.user.name],
         ["Задача", props.task.title],
         ["Статус", props.task.status],
         ["Дата создания", new Date(props.task.created_at).toLocaleDateString()],
         ["Дата окончания", new Date(props.task.end_date).toLocaleDateString()],
-        ["Содержание отчета", reportContent]
+        ["Содержание отчета", report.message]
     ];
-
     const worksheet = utils.aoa_to_sheet(data);
-
-    // Функция для автоматического расчета ширины колонок
-    const calculateColWidths = (data: any[][]) => {
-        const colWidths = data[0].map((_, colIndex) => {
-            // Находим максимальную длину текста в колонке
-            const maxLength = data.reduce((acc, row) => {
-                const cellValue = row[colIndex]?.toString() || '';
-                return Math.max(acc, cellValue.length);
-            }, 0);
-
-            // Добавляем небольшой отступ (в символах)
-            return { wch: Math.min(Math.max(maxLength + 2, 10), 50) }; // Минимум 10, максимум 50
-        });
-        return colWidths;
-    };
-
-    // Применяем автоматическую ширину колонок
-    worksheet['!cols'] = calculateColWidths(data);
-
     utils.book_append_sheet(workbook, worksheet, "Отчет");
 
-    writeFile(workbook, `Отчет_по_задаче_${props.task.title}.xlsx`);
+    // 2. Получаем buffer
+    const excelBuffer = write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+    });
+
+    // 3. Добавляем в ZIP
+    zip.file(`Отчет_${props.task.title}.xlsx`, excelBuffer);
+
+    // 4. Добавляем прикрепленный файл, если есть
+    if (report.file_path) {
+        try {
+            const response = await fetch(`/storage/${report.file_path}`);
+            if (response.ok) {
+                const fileBlob = await response.blob();
+                const fileName = report.file_path.split('/').pop();
+                zip.file(fileName || 'attachment', fileBlob);
+            }
+        } catch (error) {
+            console.error('Ошибка при загрузке файла:', error);
+        }
+    }
+
+    // 5. Генерируем и скачиваем ZIP
+    const content = await zip.generateAsync({ type: 'blob' });
+    saveAs(content, `Полный_отчет_${props.task.title}.zip`);
 };
 
 const rejectForm = () => {
@@ -107,7 +116,7 @@ const rejectForm = () => {
 
             <div v-for="(item, index) in props.reports" :key="index">
                 <div class="flex items-center gap-x-4">
-                    <button @click="downloadReport(item.content, item.user.name)"
+                    <button @click="downloadFullReport(item)"
                         class="text-sm w-full text-left line-clamp-1 p-2 rounded-md transition-all hover:dark:bg-white/10">
                         <!-- {{ tag }} -->
                         {{ item.user.name }}

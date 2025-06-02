@@ -22,14 +22,16 @@ class FriendController extends Controller
         $invitations = ProjectInvitation::where('recipient_id', $id)
             ->where('status', 'pending')
             ->get();
-        $friends = Friend::with('sender')->where('receiver_id', $user->id)->orWhere('sender_id', $id)->where('status', 'accepted')->get();
+        $friend_invitations = Friend::with('sender', 'receiver')->where('receiver_id', $id)->where('status', 'pending')->get();
+        $friends = Friend::with('sender', 'receiver')->where('receiver_id', $user->id)->orWhere('sender_id', $id)->where('status', 'accepted')->get();
         // dd($friends);
 
         return Inertia::render('Profile/Friends', [
             'users' => $users,
             'user' => $user,
             'invitations' => $invitations,
-            'friends' => $friends
+            'friends' => $friends,
+            'friendInvitations' => $friend_invitations
         ]);
     }
 

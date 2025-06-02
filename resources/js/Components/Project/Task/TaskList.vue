@@ -21,6 +21,7 @@ const props = defineProps<{
     tasks: Task[] | undefined
     projectUsers: ProjectUser[] | undefined
     project: Project
+    currentProjectUser: ProjectUser
 }>()
 
 const searchQuery = ref('');
@@ -65,11 +66,13 @@ const filteredTasks = computed(() => {
 
 <template>
     <h2 class="text-2xl font-semibold mb-4">Список задач</h2>
+    <!-- фильтрация, поиск, сортировка -->
     <div class="flex gap-2">
         <TaskSearch v-model="searchQuery" />
         <TaskStatusSelect v-model="selectedStatus" />
         <TaskEndDateSelect v-model="sortByDate" />
     </div>
+    <!-- строка прогресса задач -->
     <div>
         <TaskProgress :tasks="props.tasks" />
     </div>
@@ -95,11 +98,10 @@ const filteredTasks = computed(() => {
                 </TableCell>
                 <TableCell>{{ item.responsible.name }}</TableCell>
                 <TableCell class="text-right">
-                    <ActionDropdown :project="props.project" :task="item" :project-users="props.projectUsers" />
+                    <ActionDropdown :current-project-user="props.currentProjectUser" :project="props.project"
+                        :task="item" :project-users="props.projectUsers" />
                 </TableCell>
             </TableRow>
-            <!-- <TableRow v-else>
-            </TableRow> -->
         </TableBody>
     </Table>
     <div v-if="filteredTasks.length <= 0">

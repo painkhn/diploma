@@ -23,11 +23,15 @@ class ProjectController extends Controller
         $friends = Friend::with('receiver')->where('sender_id', Auth::id())->where('status', 'accepted')->get();
         // dd($friends);
         $project = Project::with(['projectUser.user'])->with('tasks.responsible')->with('tasks.reports.user')->with('user')->where('id', $id)->first();
+        $currentProjectUser = ProjectUser::where('project_id', $id)
+            ->where('user_id', Auth::id())
+            ->first();
         return Inertia::render('Project/Index', [
             'project' => $project,
             'users' => $users,
             'friends' => $friends,
-            'projectUsers' => $project->projectUser
+            'projectUsers' => $project->projectUser,
+            'currentProjectUser' => $currentProjectUser
         ]);
     }
 

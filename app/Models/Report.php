@@ -13,7 +13,8 @@ class Report extends Model
     protected $fillable = [
         'task_id',
         'user_id',
-        'content',
+        'message',
+        'file_path',
     ];
 
     public function Task()

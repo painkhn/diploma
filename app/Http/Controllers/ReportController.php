@@ -32,15 +32,23 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request, $id)
     {
         $user_id = Auth::id();
-        $task = Task::where('id', $id)->first();
-        $task->update([
-            'status' => 'consideration' 
-        ]);
-        $task = Report::create([
-            'content' => $request->content,
+        $task = Task::findOrFail($id);
+        
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('reports', 'public');
+        }
+
+        $task->update(['status' => 'consideration']);
+        
+        Report::create([
+            'message' => $request->message,
+            'file_path' => $filePath,
             'user_id' => $user_id,
             'task_id' => $task->id,
         ]);
+
+        return redirect()->back()->with('success', 'Отчет успешно отправлен');
     }
 
     /**

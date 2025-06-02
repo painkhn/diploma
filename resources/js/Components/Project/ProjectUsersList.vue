@@ -4,21 +4,13 @@ import { Link } from '@inertiajs/vue3';
 import axios from 'axios';
 import { Image, Trash2 } from 'lucide-vue-next';
 import { onMounted } from 'vue';
+import ActionsDropdown from './ProjectUsersList/ActionsDropdown.vue';
 
 const props = defineProps<{
     projectUsers: ProjectUser[] | undefined
     project: Project
+    currentProjectUser: ProjectUser
 }>()
-
-const deleteUser = async (userId: number) => {
-    try {
-        await axios.delete(route('project.user.delete', { id: userId }));
-        // После успешного удаления можно обновить список пользователей
-        location.reload(); // Перезагрузка страницы
-    } catch (error) {
-        console.error('Ошибка при удалении пользователя:', error);
-    }
-}
 
 onMounted(() => {
     console.log(props.projectUsers);
@@ -42,10 +34,12 @@ onMounted(() => {
                 </span>
                 </Link>
                 <div class="justify-self-end">
-                    <button @click="deleteUser(item.user.id)"
+                    <!-- <button @click="deleteUser(item.user.id)"
                         v-if="props.project.id === $page.props.auth.user.id && props.project.user_id !== item.user_id">
                         <Trash2 class="text-red-400 transition-all hover:text-red-300" />
-                    </button>
+                    </button> -->
+                    <ActionsDropdown v-if="currentProjectUser.role === 'admin'" :project="props.project"
+                        :current-project-user="props.currentProjectUser" :project-user="item" />
                 </div>
             </div>
         </li>

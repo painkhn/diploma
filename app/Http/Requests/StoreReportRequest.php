@@ -22,7 +22,8 @@ class StoreReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'message' => ['required', 'string'],
+            'file' => ['nullable', 'file'],
         ];
     }
 }

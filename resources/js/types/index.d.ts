@@ -27,6 +27,7 @@ export interface Invitation {
     recipient_id: nubmer;
     status: string;
     message: string | null;
+    role: "moderator" | "user" | "inspector";
 }
 
 export interface ProjectUser {
@@ -35,6 +36,7 @@ export interface ProjectUser {
     user_id: number;
     user: User;
     is_owner?: boolean;
+    role: "admin" | "moderator" | "inspector" | "user";
 }
 
 export interface Task {
@@ -56,7 +58,8 @@ export interface Report {
     id: number;
     task_id: number;
     user_id: number;
-    content: string;
+    message: string;
+    file_path: string;
     user: User;
 }
 

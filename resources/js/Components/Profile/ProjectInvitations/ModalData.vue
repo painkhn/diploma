@@ -2,6 +2,7 @@
 import { Invitation } from '@/types';
 import { Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { X, Check } from 'lucide-vue-next'
 
 const isLoading = ref(false);
 const error = ref<string | null>(null);
@@ -54,10 +55,25 @@ const rejectInvitation = async () => {
 </script>
 
 <template>
-    <Link :href="route('project.index', { id: notification.project_id })"
-        class="text-sm font-semibold transition-all hover:opacity-80">
+    <div>
+        <Link :href="route('project.index', { id: notification.project_id })"
+            class="text-sm font-semibold transition-all hover:opacity-80">
         Перейти на страницу проекта
-    </Link>
+        <!-- {{ notification.role }} -->
+        </Link>
+        <p class="font-semibold text-sm opacity-80 flex items-center gap-1">
+            Роль:
+            <span v-if="notification.role === 'moderator'">
+                Модератор
+            </span>
+            <span v-if="notification.role === 'inspector'">
+                Проверяющий
+            </span>
+            <span v-if="notification.role === 'user'">
+                Участник
+            </span>
+        </p>
+    </div>
     <div class="flex items-center gap-4">
         <button @click="acceptInvitation" :disabled="isLoading">
             <Check class="text-green-400 transition-all hover:text-green-300" />

@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/Components/ui/dialog'
+} from '@/components/ui/dialog'
 import ScrollArea from './ReportList/ScrollArea.vue';
 import { onMounted } from 'vue';
 import { Report, Task } from '@/types';

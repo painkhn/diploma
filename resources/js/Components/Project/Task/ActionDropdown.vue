@@ -18,6 +18,7 @@ const props = defineProps<{
     task: Task
     projectUsers: ProjectUser[] | undefined
     project: Project
+    currentProjectUser: ProjectUser
 }>()
 </script>
 
@@ -32,11 +33,16 @@ const props = defineProps<{
             <DropdownMenuSeparator />
             <!-- <DropdownMenuItem> -->
             <MoreModal :task="props.task">Подробнее</MoreModal>
-            <ReportFormModal :task="props.task" v-if="($page.props.auth.user.id === props.task.responsible.id) && (props.task.status === 'pending')">Отправить отчёт</ReportFormModal>
-            <ReportListModal v-if="$page.props.auth.user.id === props.project.user.id" :task="props.task" :reports="props.task.reports">Список отчётов</ReportListModal>
+            <ReportFormModal :task="props.task"
+                v-if="($page.props.auth.user.id === props.task.responsible.id) && (props.task.status === 'pending')">
+                Отправить отчёт</ReportFormModal>
+            <ReportListModal
+                v-if="props.currentProjectUser.role === 'admin' || props.currentProjectUser.role === 'inspector'"
+                :task="props.task" :reports="props.task.reports">Список отчётов</ReportListModal>
             <!-- </DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Отправить отчёт</DropdownMenuItem> -->
-            <EditModal v-if="$page.props.auth.user.id === props.project.user.id" :task="props.task" :project-users="props.projectUsers">Редактировать</EditModal>
+            <EditModal v-if="props.currentProjectUser.role === 'admin' || props.currentProjectUser.role === 'moderator'"
+                :task="props.task" :project-users="props.projectUsers">Редактировать</EditModal>
             <!-- <DropdownMenuItem>Редактировать</DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Subscription</DropdownMenuItem> -->
         </DropdownMenuContent>

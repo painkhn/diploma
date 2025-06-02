@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from '@/Components/ui/dialog'
+} from '@/components/ui/dialog'
 import Input from '@/Components/ui/input/Input.vue';
 import Label from '@/Components/ui/label/Label.vue';
 import Textarea from '@/Components/ui/textarea/Textarea.vue';
@@ -103,7 +103,7 @@ const returnBack = () => {
                         v-model="form.responsible_id" />
                 </div>
                 <Button type="submit"
-                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Создать</Button>
+                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Сохранить</Button>
             </form>
             <span class="text-center" v-if="props.task.status === 'pending' || 'calceled'">или</span>
             <form @submit.prevent="cancel" v-if="props.task.status === 'pending'">

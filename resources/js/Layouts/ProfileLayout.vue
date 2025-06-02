@@ -114,27 +114,6 @@ onMounted(() => {
                         {{ currentDateTime }}
                     </p>
                 </div>
-                <!-- <ul class="space-y-4" v-if="(props.projects as Project[])?.length > 0">
-                    <li v-for="(item, index) in props.projects" :key="index">
-                        <Link :href="route('project.index', { id: item.id })">
-                        <div
-                            class="w-full py-2 border-l border-black/80 dark:border-white px-8 transition-all hover:border-l-4 hover:dark:bg-white/5">
-                            <div class="flex items-center gap-x-2">
-                                <h2 class="text-2xl font-semibold">{{ item.title }}</h2>
-                                <span v-if="item.user_id === props.user.id"
-                                    class="opacity-80 mt-1 font-semibold">(Администратор)</span>
-                                <span v-else class="opacity-80 mt-1 font-semibold">(Участник)</span>
-                            </div>
-                            <p class="line-clamp-1 opacity-80">
-                                {{ item.description }}
-                            </p>
-                        </div>
-                        </Link>
-                    </li>
-                </ul>
-                <p class="text-sm font-semibold opacity-80" v-else>
-                    У вас нет доступных задач
-                </p> -->
                 <slot />
             </div>
             <div class="max-w-[300px] w-full p-5 space-y-8">

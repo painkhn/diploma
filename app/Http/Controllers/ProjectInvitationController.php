@@ -30,13 +30,6 @@ class ProjectInvitationController extends Controller
                 'role' => $request->role
             ]);
 
-            // \Log::debug('Invitation created:', $invitation->toArray()); // Логируем созданное приглашение
-            
-            // return response()->json([
-            //     'message' => 'Приглашение успешно отправлено',
-            //     'invitation' => $invitation
-            // ]);
-
         } catch (\Exception $e) {
             // \Log::error('Error creating invitation:', ['error' => $e->getMessage()]);
             return response()->json(['message' => 'Ошибка при создании приглашения'], 500);
@@ -49,7 +42,7 @@ class ProjectInvitationController extends Controller
             abort(403);
         }
 
-        dd($invitation);
+        // dd($invitation);
 
         $invitation->update(['status' => 'accepted']);
 
