@@ -9,24 +9,15 @@ import {
 } from '@/Components/ui/dropdown-menu'
 import { Project, ProjectUser } from '@/types';
 import { useForm } from '@inertiajs/vue3';
-import { Ellipsis, Trash2 } from 'lucide-vue-next';
+import { Ellipsis, Trash2, UserPen } from 'lucide-vue-next';
 import DeleteUserConfirm from './DeleteUserConfirm.vue';
+import EditRoleModal from './EditRoleModal.vue';
 
 const props = defineProps<{
     currentProjectUser: ProjectUser
     projectUser: ProjectUser
     project: Project
 }>()
-
-// const deleteUser = async (userId: number) => {
-//     try {
-//         await axios.delete(route('project.user.delete', { id: userId }));
-//         // После успешного удаления можно обновить список пользователей
-//         location.reload(); // Перезагрузка страницы
-//     } catch (error) {
-//         console.error('Ошибка при удалении пользователя:', error);
-//     }
-// }
 </script>
 
 <template>
@@ -41,6 +32,10 @@ const props = defineProps<{
                 <Trash2 class="size-5" />
                 Удалить пользователя
             </DeleteUserConfirm>
+            <EditRoleModal :project="props.project" :project-user="props.projectUser">
+                <UserPen class="size-5" />
+                Изменить роль
+            </EditRoleModal>
             <!-- <DropdownMenuItem>Billing</DropdownMenuItem>
             <DropdownMenuItem>Team</DropdownMenuItem>
             <DropdownMenuItem>Subscription</DropdownMenuItem> -->

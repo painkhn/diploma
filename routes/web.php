@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(ProjectUserController::class)->group(function() {
         Route::delete('/project/{projectId}/user/{userId}', 'destroy')->name('project.user.delete');
+        Route::patch('/project/{projectId}/user/{userId}/update', 'updateRole')->name('project.user.role.update');
     });
     Route::controller(TaskController::class)->group(function() {
         Route::post('/project/{id}/task/create', 'store')->name('task.store');

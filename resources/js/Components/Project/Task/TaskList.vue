@@ -80,6 +80,9 @@ const filteredTasks = computed(() => {
         <TableCaption></TableCaption>
         <TableHeader>
             <TableRow>
+                <TableHead class="w-[50px]">
+                    #
+                </TableHead>
                 <TableHead class="w-[150px]">
                     Название
                 </TableHead>
@@ -90,6 +93,9 @@ const filteredTasks = computed(() => {
         </TableHeader>
         <TableBody>
             <TableRow v-for="(item, index) in filteredTasks" :key="index" v-if="filteredTasks.length > 0">
+                <TableCell class="font-medium">
+                    {{ item.id }}
+                </TableCell>
                 <TableCell class="font-medium">
                     {{ item.title }}
                 </TableCell>

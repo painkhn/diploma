@@ -40,7 +40,7 @@ const deleteUser = () => {
 <template>
     <Dialog>
         <DialogTrigger
-            class="text-sm flex items-center gap-2 px-2 py-1.5 rounded transition-all hover:bg-black/10 hover:dark:bg-white/10">
+            class="text-sm flex items-center w-full gap-2 px-2 py-1.5 rounded transition-all hover:bg-black/10 hover:dark:bg-white/10">
             <slot />
         </DialogTrigger>
         <DialogContent>

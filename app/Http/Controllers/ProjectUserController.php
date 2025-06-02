@@ -7,6 +7,7 @@ use App\Models\ProjectInvitation;
 use App\Models\ProjectUser;
 use App\Http\Requests\StoreProjectUserRequest;
 use App\Http\Requests\UpdateProjectUserRequest;
+use Illuminate\Http\Request;
 
 class ProjectUserController extends Controller
 {
@@ -24,14 +25,6 @@ class ProjectUserController extends Controller
     public function create()
     {
         //
-    }
-
-    public function makeAdminProjectUser(StoreProjectUserRequest $request, $id)
-    {
-        $project = Project::where('id', $id)->first();
-        $project_user = ProjectUser::create([
-            
-        ]);
     }
 
     /**
@@ -56,6 +49,28 @@ class ProjectUserController extends Controller
     public function edit(ProjectUser $projectUser)
     {
         //
+    }
+
+    public function updateRole($projectId, $userId, Request $request)
+    {
+        $projectUser = ProjectUser::where('project_id', $projectId)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
+        $isAdmin = ProjectUser::where('project_id', $projectId)
+            ->where('user_id', auth()->id())
+            ->where('role', 'admin')
+            ->exists();
+
+        if (!$isAdmin) {
+            return response()->json(['error' => 'Недостаточно прав'], 403);
+        }
+
+        $projectUser->update([
+            'role' => $request->role
+        ]);
+
+        // return response()->json(['success' => true]);
     }
 
     /**
