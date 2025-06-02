@@ -61,6 +61,7 @@ export interface Report {
     message: string;
     file_path: string;
     user: User;
+    type: "complete" | "back";
 }
 
 export interface Friend {

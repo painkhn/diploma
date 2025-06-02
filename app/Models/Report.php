@@ -15,6 +15,7 @@ class Report extends Model
         'user_id',
         'message',
         'file_path',
+        'type'
     ];
 
     public function Task()

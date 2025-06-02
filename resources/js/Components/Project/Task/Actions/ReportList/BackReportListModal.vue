@@ -8,12 +8,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog'
-import ScrollArea from './ReportList/ScrollArea.vue';
+import ScrollArea from '../ReportList/ScrollArea.vue';
 import { onMounted } from 'vue';
 import { Report, Task } from '@/types';
+import BackScrollArea from './BackScrollArea.vue';
 
 const props = defineProps<{
-    reports: Report[] | undefined
     backReports: Report[] | undefined
     task: Task
 }>()
@@ -31,12 +31,12 @@ const props = defineProps<{
         </DialogTrigger>
         <DialogContent>
             <DialogHeader>
-                <DialogTitle>Список отчётов</DialogTitle>
+                <DialogTitle>Список обратных отчётов</DialogTitle>
                 <DialogDescription>
-                    Здесь вы можете посмотреть список всех отчётов по данной задаче.
+                    Здесь вы можете посмотреть список обратных отчётов по данной задаче.
                 </DialogDescription>
             </DialogHeader>
-            <ScrollArea :task="props.task" :reports="props.reports" />
+            <BackScrollArea :task="props.task" :backReports="(props.backReports as Report[])" />
             <DialogFooter>
                 <!-- Save changes -->
             </DialogFooter>

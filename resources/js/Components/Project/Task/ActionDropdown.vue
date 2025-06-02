@@ -9,17 +9,25 @@ import {
 } from '@/Components/ui/dropdown-menu'
 import { Ellipsis } from 'lucide-vue-next';
 import MoreModal from './Actions/MoreModal.vue';
-import { Project, ProjectUser, Task } from '@/types';
+import { Project, ProjectUser, Report, Task } from '@/types';
 import ReportFormModal from './Actions/ReportFormModal.vue';
 import ReportListModal from './Actions/ReportListModal.vue';
 import EditModal from './Actions/EditModal.vue';
+import { onMounted } from 'vue';
+import BackReportListModal from './Actions/ReportList/BackReportListModal.vue';
 
 const props = defineProps<{
     task: Task
     projectUsers: ProjectUser[] | undefined
     project: Project
     currentProjectUser: ProjectUser
+    backReports: Report[]
+    reports: Report[] | undefined
 }>()
+
+onMounted(() => {
+    // console.log('asdasd', props.backReports);
+})
 </script>
 
 <template>
@@ -38,7 +46,12 @@ const props = defineProps<{
                 Отправить отчёт</ReportFormModal>
             <ReportListModal
                 v-if="props.currentProjectUser.role === 'admin' || props.currentProjectUser.role === 'inspector'"
-                :task="props.task" :reports="props.task.reports">Список отчётов</ReportListModal>
+                :back-reports="props.backReports" :task="props.task" :reports="props.task.reports">Список отчётов
+            </ReportListModal>
+            <BackReportListModal v-if="($page.props.auth.user.id === props.task.responsible.id)" :task="props.task"
+                :back-reports="props.backReports">
+                Обратные отчёты
+            </BackReportListModal>
             <!-- </DropdownMenuItem> -->
             <!-- <DropdownMenuItem>Отправить отчёт</DropdownMenuItem> -->
             <EditModal v-if="props.currentProjectUser.role === 'admin' || props.currentProjectUser.role === 'moderator'"

@@ -46,6 +46,30 @@ class ReportController extends Controller
             'file_path' => $filePath,
             'user_id' => $user_id,
             'task_id' => $task->id,
+            'type' => 'complete'
+        ]);
+
+        return redirect()->back()->with('success', 'Отчет успешно отправлен');
+    }
+
+    public function storeReject(StoreReportRequest $request, $id)
+    {
+        $user_id = Auth::id();
+        $task = Task::findOrFail($id);
+        
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('reports', 'public');
+        }
+
+        $task->update(['status' => 'pending']);
+        
+        Report::create([
+            'message' => $request->message,
+            'file_path' => $filePath,
+            'user_id' => $user_id,
+            'task_id' => $task->id,
+            'type' => 'back'
         ]);
 
         return redirect()->back()->with('success', 'Отчет успешно отправлен');

@@ -19,7 +19,7 @@ const tags = Array.from({ length: 50 }).map(
 )
 
 const props = defineProps<{
-    reports: Report[] | undefined
+    backReports: Report[] | undefined
     task: Task
 }>()
 
@@ -110,7 +110,7 @@ const downloadFullReport = async (report: Report) => {
                 Отчёты
             </h4>
 
-            <div v-for="(item, index) in props.reports" :key="index">
+            <div v-for="(item, index) in props.backReports" :key="index">
                 <div class="flex items-center gap-x-4">
                     <button @click="downloadFullReport(item)"
                         class="text-sm w-full text-left line-clamp-1 p-2 rounded-md transition-all hover:dark:bg-white/10">

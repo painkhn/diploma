@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::controller(ReportController::class)->group(function() {
         Route::post('/task/{id}/report', 'store')->name('report.store');
+        Route::post('/task/{id}/report/reject', 'storeReject')->name('report.reject');
     });
     Route::controller(TaskController::class)->group(function() {
         Route::patch('/task/{task}/update', 'update')->name('task.update');

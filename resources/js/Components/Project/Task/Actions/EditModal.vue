@@ -105,7 +105,7 @@ const returnBack = () => {
                 <Button type="submit"
                     class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Сохранить</Button>
             </form>
-            <span class="text-center" v-if="props.task.status === 'pending' || 'calceled'">или</span>
+            <span class="text-center" v-if="props.task.status === 'pending' || props.task.status === 'calceled'">или</span>
             <form @submit.prevent="cancel" v-if="props.task.status === 'pending'">
                 <Button type="submit"
                     class="w-full transition-all dark:bg-red-400 bg-black dark:text-black text-white hover:dark:bg-red-300 hover:bg-black/80">Отменить

@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/Components/ui/table'
-import { Project, ProjectUser, Task } from '@/types';
+import { Project, ProjectUser, Report, Task } from '@/types';
 import { ref, computed, watch } from 'vue';
 import ActionDropdown from './ActionDropdown.vue';
 import TaskSearch from '@/Components/Project/Search/TaskSearch.vue';
@@ -22,6 +22,8 @@ const props = defineProps<{
     projectUsers: ProjectUser[] | undefined
     project: Project
     currentProjectUser: ProjectUser
+    backReports: Report[]
+    reports: Report[] | undefined
 }>()
 
 const searchQuery = ref('');
@@ -80,9 +82,6 @@ const filteredTasks = computed(() => {
         <TableCaption></TableCaption>
         <TableHeader>
             <TableRow>
-                <TableHead class="w-[50px]">
-                    #
-                </TableHead>
                 <TableHead class="w-[150px]">
                     Название
                 </TableHead>
@@ -94,9 +93,6 @@ const filteredTasks = computed(() => {
         <TableBody>
             <TableRow v-for="(item, index) in filteredTasks" :key="index" v-if="filteredTasks.length > 0">
                 <TableCell class="font-medium">
-                    {{ item.id }}
-                </TableCell>
-                <TableCell class="font-medium">
                     {{ item.title }}
                 </TableCell>
                 <TableCell>
@@ -104,8 +100,9 @@ const filteredTasks = computed(() => {
                 </TableCell>
                 <TableCell>{{ item.responsible.name }}</TableCell>
                 <TableCell class="text-right">
-                    <ActionDropdown :current-project-user="props.currentProjectUser" :project="props.project"
-                        :task="item" :project-users="props.projectUsers" />
+                    <ActionDropdown :reports="props.reports" :back-reports="props.backReports"
+                        :current-project-user="props.currentProjectUser" :project="props.project" :task="item"
+                        :project-users="props.projectUsers" />
                 </TableCell>
             </TableRow>
         </TableBody>

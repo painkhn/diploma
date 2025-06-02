@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\ProjectUser;
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,19 +20,43 @@ class ProjectController extends Controller
      */
     public function index($id)
     {
-        $users = User::all();
+        // $users = User::all();
         $friends = Friend::with('receiver')->where('sender_id', Auth::id())->where('status', 'accepted')->get();
-        // dd($friends);
-        $project = Project::with(['projectUser.user'])->with('tasks.responsible')->with('tasks.reports.user')->with('user')->where('id', $id)->first();
+        
+        $project = Project::with([
+            'projectUser.user',
+            'tasks.responsible',
+            'tasks.reports.user',
+            'user'
+        ])->where('id', $id)->first();
+
         $currentProjectUser = ProjectUser::where('project_id', $id)
             ->where('user_id', Auth::id())
             ->first();
+
+        // Получаем ID всех задач проекта
+        $taskIds = $project->tasks->pluck('id');
+
+        // Загружаем все back-отчеты для задач проекта одним запросом
+        $backReports = Report::with('user')
+            ->whereIn('task_id', $taskIds)
+            ->where('type', 'back')
+            ->get();
+
+        $reports = Report::with('user')
+            ->whereIn('task_id', $taskIds)
+            ->get();
+
+        // dd($reports);
+
         return Inertia::render('Project/Index', [
             'project' => $project,
-            'users' => $users,
+            // 'users' => $users,
             'friends' => $friends,
             'projectUsers' => $project->projectUser,
-            'currentProjectUser' => $currentProjectUser
+            'currentProjectUser' => $currentProjectUser,
+            'backReports' => $backReports,
+            'reports' => $reports
         ]);
     }
 

@@ -3,7 +3,7 @@ import AddUserModal from '@/Components/Project/AddUserModal.vue';
 import ProjectUsersList from '@/Components/Project/ProjectUsersList.vue';
 import UpdateProjectModal from '@/Components/Project/UpdateProjectModal.vue';
 import MainLayout from '@/Layouts/MainLayout.vue';
-import { Friend, Project, ProjectUser, Task, User } from '@/types';
+import { Friend, Project, ProjectUser, Report, Task, User } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 import { UserRoundPlus } from 'lucide-vue-next';
 import { defineProps } from 'vue';
@@ -17,6 +17,8 @@ const props = defineProps<{
     projectUsers: ProjectUser[] | undefined
     friends: Friend[] | undefined
     currentProjectUser: ProjectUser
+    backReports: Report[] | undefined
+    reports: Report[] | undefined
 }>()
 
 // onMounted(() => {
@@ -70,7 +72,8 @@ const props = defineProps<{
 
                     <TaskList v-if="(props.project.tasks as Task[])?.length > 0" :tasks="props.project.tasks"
                         :project="props.project" :project-users="props.projectUsers"
-                        :current-project-user="props.currentProjectUser" />
+                        :current-project-user="props.currentProjectUser" :reports="props.reports"
+                        :back-reports="(props.backReports as Report[])" />
                     <div v-else>
                         Нет ни одной доступной задачи
                     </div>
@@ -93,7 +96,8 @@ const props = defineProps<{
                         <UserRoundPlus />
                         Пригласить пользователя
                     </AddUserModal>
-                    <ProjectUsersList :project-users="props.projectUsers" :project="props.project" :current-project-user="props.currentProjectUser" />
+                    <ProjectUsersList :project-users="props.projectUsers" :project="props.project"
+                        :current-project-user="props.currentProjectUser" />
                 </div>
             </div>
         </div>
