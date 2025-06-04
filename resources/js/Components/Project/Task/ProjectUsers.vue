@@ -16,10 +16,6 @@ const selectedUser = ref()
 
 watch(selectedUser, (newValue) => {
     emit('update:modelValue', newValue.user_id)
-    // if (newValue) {
-    // } else {
-    //     emit('update:modelValue', null)
-    // }
 })
 </script>
 
