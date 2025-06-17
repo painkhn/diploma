@@ -23,7 +23,13 @@ class FriendController extends Controller
             ->where('status', 'pending')
             ->get();
         $friend_invitations = Friend::with('sender', 'receiver')->where('receiver_id', $id)->where('status', 'pending')->get();
-        $friends = Friend::with('sender', 'receiver')->where('receiver_id', $user->id)->orWhere('sender_id', $id)->where('status', 'accepted')->get();
+        $friends = Friend::where('status', 'accepted')
+            ->where(function($query) use ($id) {
+                $query->where('receiver_id', $id)
+                    ->orWhere('sender_id', $id);
+                })
+            ->with('sender', 'receiver')
+            ->get();
         // dd($friends);
 
         return Inertia::render('Profile/Friends', [
@@ -61,6 +67,15 @@ class FriendController extends Controller
         // dd($invitation);
         $invitation->update([
             'status' => 'accepted'
+        ]);
+    }
+
+    public function reject($id)
+    {
+        $invitation = Friend::findOrFail($id);
+        // dd($invitation);
+        $invitation->update([
+            'status' => 'rejected'
         ]);
     }
 

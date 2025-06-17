@@ -38,6 +38,9 @@ const updateValue = (value: any) => {
                 <SelectItem value="user" v-if="projectUser.role !== 'user'">
                     Участник
                 </SelectItem>
+                <SelectItem value="admin" v-if="projectUser.role !== 'admin'">
+                    Участник
+                </SelectItem>
             </SelectGroup>
         </SelectContent>
     </Select>

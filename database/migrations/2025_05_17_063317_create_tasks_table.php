@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->enum('status', ['pending', 'completed', 'canceled', 'consideration']);
-            $table->string('end_date');
+            $table->date('end_date');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('responsible_id');
             $table->unsignedBigInteger('project_id');
