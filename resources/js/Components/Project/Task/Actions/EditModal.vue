@@ -17,6 +17,11 @@ import { useForm } from '@inertiajs/vue3';
 import DatePicker from '../../CreateModal/DatePicker.vue';
 import ProjectUsers from '../ProjectUsers.vue';
 import Button from '@/Components/ui/button/Button.vue';
+import { ref } from 'vue';
+import Loader from '@/Components/Loader/Loader.vue';
+import { useToast } from '@/Components/ui/toast/use-toast'
+
+const { toast } = useToast()
 
 const props = defineProps<{
     task: Task
@@ -32,15 +37,25 @@ const form = useForm({
     status: props.task.status
 })
 
+const isLoading = ref<boolean>(false)
+
 const submit = () => {
+    isLoading.value = true
+
     form.patch(route('task.update', { task: props.task.id }), {
         onSuccess: () => {
             form.reset('title')
             console.log('успешно');
-            location.reload();
+            toast({
+                title: 'Успешно!',
+                description: 'Задача была обновлена',
+            })
         },
         onError: () => {
             console.log('error')
+        },
+        onFinish: () => {
+            isLoading.value = false
         }
     })
 }
@@ -102,10 +117,14 @@ const returnBack = () => {
                     <ProjectUsers :auth-user="$page.props.auth.user" :project-users="props.projectUsers"
                         v-model="form.responsible_id" />
                 </div>
-                <Button type="submit"
-                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Сохранить</Button>
+                <Button type="submit" :disabled="isLoading"
+                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80 disabled:opacity-50">
+                    <Loader v-if="isLoading" />
+                    Сохранить
+                </Button>
             </form>
-            <span class="text-center" v-if="props.task.status === 'pending' || props.task.status === 'calceled'">или</span>
+            <span class="text-center"
+                v-if="props.task.status === 'pending' || props.task.status === 'calceled'">или</span>
             <form @submit.prevent="cancel" v-if="props.task.status === 'pending'">
                 <Button type="submit"
                     class="w-full transition-all dark:bg-red-400 bg-black dark:text-black text-white hover:dark:bg-red-300 hover:bg-black/80">Отменить
@@ -113,8 +132,9 @@ const returnBack = () => {
             </form>
             <form @submit.prevent="returnBack" v-if="props.task.status === 'canceled'">
                 <Button type="submit"
-                    class="w-full transition-all dark:bg-blue-400 bg-black dark:text-black text-white hover:dark:bg-blue-300 hover:bg-black/80">Вернуть
-                    задачу</Button>
+                    class="w-full transition-all dark:bg-blue-400 bg-black dark:text-black text-white hover:dark:bg-blue-300 hover:bg-black/80">
+                    Вернуть задачу
+                </Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->

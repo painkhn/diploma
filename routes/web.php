@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile/{id}/friends', 'index')->name('friend.index');
         Route::post('/friend/store', 'store')->name('friend.store');
         Route::patch('/friend/invitation/{id}/accept', 'accept')->name('friend.accept');
-        Route::patch('/friend/invitation/{id}/reject', 'reject')->name('friend.reject');
+        Route::delete('/friend/invitation/{id}/reject', 'reject')->name('friend.reject');
     });
 });
 

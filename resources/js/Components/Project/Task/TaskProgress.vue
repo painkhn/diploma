@@ -10,8 +10,13 @@ const props = defineProps<{
 const progressValue = computed(() => {
     if (!props.tasks || props.tasks.length === 0) return 0;
 
-    const completedTasks = props.tasks.filter(task => task.status === 'completed');
-    return Math.round((completedTasks.length / props.tasks.length) * 100);
+    // Фильтруем задачи, исключая canceled
+    const activeTasks = props.tasks.filter(task => task.status !== 'canceled');
+    if (activeTasks.length === 0) return 0; // Если все задачи canceled или список пуст
+
+    // Считаем выполненные среди активных
+    const completedTasks = activeTasks.filter(task => task.status === 'completed');
+    return Math.round((completedTasks.length / activeTasks.length) * 100);
 });
 </script>
 

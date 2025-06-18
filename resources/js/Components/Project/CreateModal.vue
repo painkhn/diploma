@@ -15,6 +15,10 @@ import DatePicker from './CreateModal/DatePicker.vue';
 import Button from '../ui/button/Button.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import Loader from '../Loader/Loader.vue';
+import { useToast } from '@/Components/ui/toast/use-toast'
+
+const { toast } = useToast()
 
 const form = useForm({
     title: '',
@@ -25,15 +29,26 @@ const form = useForm({
 
 const errorMessage = ref('');
 
+const isLoading = ref<boolean>(false)
+
 const submit = () => {
+    isLoading.value = true
+
     form.post(route('project.store'), {
         onSuccess: () => {
             form.reset();
+            toast({
+                title: 'Успешно!',
+                description: 'Вы успешно создали проект',
+            })
         },
         onError: (errors) => {
             errorMessage.value = Object.values(errors).join('\n');
             console.log(errorMessage);
         },
+        onFinish: () => {
+            isLoading.value = false
+        }
     });
 }
 </script>
@@ -84,8 +99,11 @@ const submit = () => {
                         {{ form.errors.end_date }}
                     </span>
                 </div>
-                <Button type="submit" variant="default"
-                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Создать</Button>
+                <Button type="submit" variant="default" :disabled="isLoading"
+                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">
+                    <Loader v-if="isLoading" />
+                    Создать
+                </Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->

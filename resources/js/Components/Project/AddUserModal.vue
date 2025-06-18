@@ -18,6 +18,10 @@ import SearchSelect from './AddUserModal/SearchSelect.vue';
 import Label from '../ui/label/Label.vue';
 import RoleSelect from './AddUserModal/RoleSelect.vue';
 import { useForm } from '@inertiajs/vue3';
+import { useToast } from '@/Components/ui/toast/use-toast'
+import Loader from '../Loader/Loader.vue';
+
+const { toast } = useToast()
 
 const props = defineProps<{
     users: User[]
@@ -30,14 +34,25 @@ const form = useForm({
     recipient_id: ''
 })
 
+const isLoading = ref<boolean>(false)
+
 const submit = () => {
+    isLoading.value = true
+
     form.post(route('project.invitation.store', { id: props.project.id }), {
         onSuccess: () => {
             form.reset();
             console.log('Приглашение в проект успешно отправлено');
+            toast({
+                title: 'Успешно!',
+                description: 'Приглашение пользователя в проект отправлено',
+            })
         },
         onError: (errors) => {
             console.log('Ошибка при отправке приглашения в проект, ', errors);
+        },
+        onFinish: () => {
+            isLoading.value = false
         }
     })
 }
@@ -66,7 +81,10 @@ const submit = () => {
                         <Label>Роль</Label>
                         <RoleSelect v-model="form.role" />
                     </div>
-                    <Button type="submit" class="text-white dark:text-black w-full transition-all hover:opacity-80">
+                    <Button type="submit"
+                        class="text-white dark:text-black w-full transition-all hover:opacity-80 disabled:opacity-50"
+                        :disabled="isLoading">
+                        <Loader v-if="isLoading" />
                         Пригласить
                     </Button>
                 </form>

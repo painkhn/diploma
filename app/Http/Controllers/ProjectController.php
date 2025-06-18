@@ -90,7 +90,7 @@ class ProjectController extends Controller
                 'role' => 'admin'
             ]);
     
-            return redirect()->route('home')->with('success', 'Проект успешно создан.');
+            return redirect()->back()->with('success', 'Проект успешно создан.');
     
         }  catch (\Exception $e) {
             // Логируем ошибку (опционально)

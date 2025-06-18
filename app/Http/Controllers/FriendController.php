@@ -74,9 +74,7 @@ class FriendController extends Controller
     {
         $invitation = Friend::findOrFail($id);
         // dd($invitation);
-        $invitation->update([
-            'status' => 'rejected'
-        ]);
+        $invitation->delete();
     }
 
     /**

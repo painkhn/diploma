@@ -39,7 +39,7 @@ const updateValue = (value: any) => {
                     Участник
                 </SelectItem>
                 <SelectItem value="admin" v-if="projectUser.role !== 'admin'">
-                    Участник
+                    Администратор
                 </SelectItem>
             </SelectGroup>
         </SelectContent>

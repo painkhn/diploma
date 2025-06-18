@@ -20,7 +20,10 @@ import { ref } from 'vue'
 import { Project, User } from '@/types';
 import { defineProps } from 'vue';
 import { useForm } from '@inertiajs/vue3';
+import Loader from '@/Components/Loader/Loader.vue';
+import { useToast } from '@/Components/ui/toast/use-toast'
 
+const { toast } = useToast()
 
 const form = useForm({
     title: '',
@@ -34,14 +37,25 @@ const props = defineProps<{
     projectUsers: any
 }>()
 
+const isLoading = ref<boolean>(false)
+
 const submit = () => {
+    isLoading.value = true
+
     form.post(route('task.store', { id: props.project.id }), {
         onSuccess: () => {
             form.reset()
             console.log('нормас')
+            toast({
+                title: 'Успешно!',
+                description: 'Новая задача была успешно добавлена',
+            })
         },
         onError: () => {
             console.log('не нормас')
+        },
+        onFinish: () => {
+            isLoading.value = false
         }
     })
 }
@@ -89,8 +103,11 @@ const submit = () => {
                         {{ form.errors.responsible_id }}
                     </span>
                 </div>
-                <Button type="submit"
-                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80">Создать</Button>
+                <Button type="submit" :disabled="isLoading"
+                    class="w-full transition-all dark:bg-white bg-black dark:text-black text-white hover:dark:bg-gray-200 hover:bg-black/80 disabled:opacity-80">
+                    <Loader v-if="isLoading" />
+                    Создать
+                </Button>
             </form>
             <DialogFooter>
                 <!-- Save changes -->

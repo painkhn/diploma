@@ -5,6 +5,9 @@ import ProfileLayout from '@/Layouts/ProfileLayout.vue';
 import { Friend, Invitation, Project, User } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { Image, Plus } from 'lucide-vue-next';
+import { useToast } from '@/Components/ui/toast/use-toast'
+
+const { toast } = useToast()
 
 const props = defineProps<{
     users: User[];
@@ -17,9 +20,13 @@ const props = defineProps<{
 const form = useForm({})
 
 const unSubFriend = (id: number) => {
-    form.patch(route('friend.reject', { id: id }), {
+    form.delete(route('friend.reject', { id: id }), {
         onSuccess: () => {
             console.log('Пользователь удалён из списка друзей');
+            toast({
+                title: 'Успешно!',
+                description: 'Пользователь удалён из списка друзей',
+            })
         },
         onError: (errors) => {
             console.log(errors);
@@ -55,10 +62,10 @@ const unSubFriend = (id: number) => {
                     </div>
                     <div class="font-semibold">
                         <div v-if="friend.sender_id === props.user.id">
-                            <Link :href="route('profile.show', { id: friend.receiver.id })">
+                            <Link :href="route('profile.show', { id: friend.receiver.id })" class="hover:underline">
                             {{ friend.receiver.name }}
                             </Link>
-                            <form @submit.prevent="unSubFriend(friend.receiver.id)">
+                            <form @submit.prevent="unSubFriend(friend.id)">
                                 <button type="submit"
                                     class="!font-normal text-sm text-red-400 transition-all hover:text-red-500">
                                     Удалить из друзей
@@ -66,10 +73,10 @@ const unSubFriend = (id: number) => {
                             </form>
                         </div>
                         <div v-if="friend.receiver_id === props.user.id">
-                            <Link :href="route('profile.show', { id: friend.sender.id })">
+                            <Link :href="route('profile.show', { id: friend.sender.id })" class="hover:underline">
                             {{ friend.sender.name }}
                             </Link>
-                            <form @submit.prevent="unSubFriend(friend.sender.id)">
+                            <form @submit.prevent="unSubFriend(friend.id)">
                                 <button type="submit"
                                     class="!font-normal text-sm text-red-400 transition-all hover:text-red-500">
                                     Удалить из друзей

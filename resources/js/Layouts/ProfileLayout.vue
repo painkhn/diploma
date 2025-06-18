@@ -85,7 +85,8 @@ onMounted(() => {
                 </div>
                 <ul class="space-y-2">
                     <li>
-                        <h2 class="font-semibold text-lg uppercase">{{ props.user?.name }}</h2>
+                        <Link :href="route('profile.show', { id: props.user.id })"
+                            class="font-semibold text-lg uppercase hover:underline">{{ props.user?.name }}</Link>
                     </li>
                     <li>
                         <p>{{ props.user?.email }}</p>
@@ -96,7 +97,8 @@ onMounted(() => {
                         </CreateModal>
                     </li>
                     <li v-if="props.user.id === $page.props.auth.user.id">
-                        <Link :href="route('friend.index', { id: props.user.id })">
+                        <Link :href="route('friend.index', { id: props.user.id })"
+                            class="transition-all hover:opacity-80">
                         Друзья
                         </Link>
                     </li>
@@ -116,7 +118,7 @@ onMounted(() => {
                 </div>
                 <slot />
             </div>
-            <div class="max-w-[300px] w-full p-5 space-y-8">
+            <div class="max-w-[300px] w-full p-5 space-y-8" v-if="$page.props.auth.user.id === props.user.id">
                 <h2 class="text-2xl font-semibold text-center">
                     Уведомления
                 </h2>
@@ -136,6 +138,7 @@ onMounted(() => {
                 </ul>
                 <p v-else class="text-sm font-semibold text-center opacity-80">У вас нет новых уведомлений</p>
             </div>
+            <div class="max-w-[300px] w-full" v-else></div>
         </section>
 
     </MainLayout>
